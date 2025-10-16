@@ -3,4 +3,59 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  --vigzi: #cb42f5;
+  --kris: #15d1b2
+}
+
+/* charPick */
+
+.charPick-container {
+  display: flex;
+  column-gap: 40px;
+}
+
+.charPick {
+  padding: 40px;
+  border-radius: 40px;
+  color: black;
+  font-size: 40px;
+}
+
+.vigzi {
+  background-color: var(--vigzi);
+}
+.vigzi:hover {
+  color: #ecf754;
+}
+
+.kris {
+  background-color: var(--kris);
+}
+
+/* Chat */
+
+.chat {
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50.5%, -49.8%);
+  width: 345px;
+  height: 613px;
+  display: flex;
+}
+
+.chat-box {
+  background-color: blue;
+  width: 100%;
+  height: 150px;
+  align-self: end;
+}
+
+.chat-message {
+  overflow-y: scroll;
+  width: 90%;
+  height: 110px;
+  margin: 20px auto;
+  resize: none;
 }
