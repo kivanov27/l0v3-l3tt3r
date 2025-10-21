@@ -1,43 +1,51 @@
 import phone from "../assets/iphone6.png";
-import { useState } from "react";
+import { useEffect } from "react";
+import type { MessageEntry } from "../types";
 
-const krisMsg = "hy lil bb how u doin today wit yo fine lil booty cheek";
-const vigziMsg = "im gucci my doochi wanna smell my coochie";
+interface KrisViewProps {
+    messages: MessageEntry[];
+    newMessage: string;
+    setNewMessage: React.Dispatch<React.SetStateAction<string>>;
+    setFrom: React.Dispatch<React.SetStateAction<string>>;
+    addMessage: (event: React.SyntheticEvent) => void;
+}
 
-const KrisView = () => {
-  const [message, setMessage] = useState<string>("");
-  const [urMsg, setUrMsg] = useState<string>(krisMsg);
+const KrisView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }: KrisViewProps) => {
 
-  return (
-    <div>
-      <img src={phone} alt="fak" width="454" height="872" />
-      <div className="chat-container">
-        <div className="chat">
-          <div className="msg-container left">
-            <span className="msg-lbl">vigzi's msg 4 u</span>
-            <span className="msg vigzi">{vigziMsg}</span>
-          </div>
-          <div className="msg-container right">
-            <span className="msg-lbl">ur msg 4 vigzi</span>
-            <span className="msg kris">{urMsg}</span>
-          </div>
+    useEffect(() => {
+        setFrom("Kris");
+    }, [setFrom]);
+
+    return (
+        <div>
+            <img src={phone} alt="fak" width="454" height="872" />
+            <div className="chat-container">
+                <div className="chat">
+                    <div className="msg-container left">
+                        <span className="msg-lbl">vigzi's msg 4 u</span>
+                        <span className="msg vigzi">{messages.find(m => m.from === "vigzi")?.message}</span>
+                    </div>
+                    <div className="msg-container right">
+                        <span className="msg-lbl">ur msg 4 vigzi</span>
+                        <span className="msg kris">{messages.find(m => m.from === "vigzi")?.message}</span>
+                    </div>
+                </div>
+                <div className="chat-box">
+                    <textarea
+                        className="chat-message"
+                        value={newMessage}
+                        onChange={({ target }) => setNewMessage(target.value)}
+                    />
+                </div>
+            </div>
+            <button
+                className="btn-heart"
+                onClick={addMessage}
+            >
+                💙
+            </button>
         </div>
-        <div className="chat-box">
-          <textarea
-            className="chat-message"
-            value={message}
-            onChange={({ target }) => setMessage(target.value)}
-          />
-        </div>
-      </div>
-      <button
-        className="btn-heart"
-        onClick={() => setUrMsg(message)}
-      >
-        💙
-      </button>
-    </div>
-  );
+    );
 };
 
 export default KrisView;

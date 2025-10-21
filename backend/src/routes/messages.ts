@@ -1,10 +1,12 @@
 import express from "express";
 import messageService from "../services/messageService";
+import toNewMessage from "../utils";
+import messages from "../../data/messages";
 
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-    res.send("Fetching all messages");
+    res.json(messages);
 });
 
 router.get("/:id", (req, res) => {
@@ -18,9 +20,18 @@ router.get("/:id", (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { from, message } = req.body;
-    const newMessage = messageService.addMessage({ from, message });
-    res.json(newMessage);
+    try {
+        const newMessage = toNewMessage(req.body);
+        const addedMessage = messageService.addMessage(newMessage);
+        res.json(addedMessage);
+    }
+    catch (error: unknown) {
+        let errorMsg = "Something went wrong.";
+        if (error instanceof Error) {
+            errorMsg += " Error: " + error.message;
+        }
+        res.status(400).send(errorMsg);
+    }
 });
 
 export default router;
