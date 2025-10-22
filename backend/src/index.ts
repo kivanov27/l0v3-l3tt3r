@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import messageRouter from "./routes/messages";
 
 const app = express();
