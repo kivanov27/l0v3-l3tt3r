@@ -23,11 +23,15 @@ const KrisView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }: 
                 <div className="chat">
                     <div className="msg-container left">
                         <span className="msg-lbl">vigzi's msg 4 u</span>
-                        <span className="msg vigzi">{messages.find(m => m.from === "vigzi")?.message}</span>
+                        <span className="msg vigzi">
+                            {messages.find(m => m.from === "Vigzi")?.message}
+                        </span>
                     </div>
                     <div className="msg-container right">
                         <span className="msg-lbl">ur msg 4 vigzi</span>
-                        <span className="msg kris">{messages.find(m => m.from === "vigzi")?.message}</span>
+                        <span className="msg kris">
+                            {messages.find(m => m.from === "Vigzi")?.message}
+                        </span>
                     </div>
                 </div>
                 <div className="chat-box">

@@ -11,7 +11,6 @@ interface VigziViewProps {
 }
 
 const VigziView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }: VigziViewProps) => {
-
     useEffect(() => {
         setFrom("Vigzi");
     }, [setFrom]);
@@ -23,11 +22,15 @@ const VigziView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }:
                 <div className="chat">
                     <div className="msg-container left">
                         <span className="msg-lbl">kris' msg 4 u</span>
-                        <span className="msg kris">{messages.find(m => m.from === "kris")?.message}</span>
+                        <span className="msg kris">
+                            {messages.find(m => m.from === "Kris")?.message}
+                        </span>
                     </div>
                     <div className="msg-container right">
                         <span className="msg-lbl">ur msg 4 kris</span>
-                        <span className="msg vigzi">{messages.find(m => m.from === "kris")?.message}</span>
+                        <span className="msg vigzi">
+                            {messages.find(m => m.from === "Kris")?.message}
+                        </span>
                     </div>
                 </div>
                 <div className="chat-box">
