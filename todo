@@ -1,4 +1,2 @@
-- use axios in the frontend to fetch and post to the backend
-- make a table in mongodb
 - connect app to mongodb table
 - change service to use mongodb table
