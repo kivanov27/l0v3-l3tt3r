@@ -29,7 +29,7 @@ const VigziView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }:
                     <div className="msg-container right">
                         <span className="msg-lbl">ur msg 4 kris</span>
                         <span className="msg vigzi">
-                            {messages.find(m => m.from === "Kris")?.message}
+                            {messages.find(m => m.from === "Vigzi")?.message}
                         </span>
                     </div>
                 </div>
