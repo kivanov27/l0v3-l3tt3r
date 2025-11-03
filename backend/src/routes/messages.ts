@@ -1,12 +1,12 @@
 import express from "express";
 import messageService from "../services/messageService";
 import toNewMessage from "../utils";
-import messages from "../../data/messages";
+import MessageModel from "../models/message";
 
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-    res.json(messages);
+    MessageModel.find({}).then(messages => res.json(messages));
 });
 
 router.get("/:id", (req, res) => {
