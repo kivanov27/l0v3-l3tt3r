@@ -1,4 +1,4 @@
-import "dotenv/config";
+require("dotenv").config();
 
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
