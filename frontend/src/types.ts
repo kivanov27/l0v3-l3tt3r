@@ -1,5 +1,5 @@
 export interface MessageEntry {
-    id: number;
+    id: string;
     from: string;
     message: string;
 }
