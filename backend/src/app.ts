@@ -19,6 +19,7 @@ mongoose.connect(DB_URL as string)
 app.use(cors());
 app.use(express.static("dist"));
 app.use(express.json());
+
 app.use("/api/messages", messageRouter);
 
 app.listen(PORT, () => {

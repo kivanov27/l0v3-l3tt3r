@@ -1,8 +1,14 @@
-// import { MessageEntry, NewMessageEntry } from "../utils/types";
 import MessageModel from "../models/message";
+import { MessageEntry, NewMessageEntry } from "../utils/types";
 
 const getMessages = async () => {
     return await MessageModel.find({});
+};
+
+const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
+    const newMessage = new MessageModel(entry);
+    const savedMessage = await newMessage.save();
+    return savedMessage;
 };
 
 // const getMessage = (id: number): MessageEntry | undefined => {
@@ -10,17 +16,8 @@ const getMessages = async () => {
 //     return message;
 // };
 
-// const addMessage = (entry: NewMessageEntry): MessageEntry => {
-//     const newMessage = {
-//         id: Math.max(...messages.map(m => m.id)) + 1,
-//         ...entry
-//     };
-//     messages.push(newMessage);
-//     return newMessage;
-// };
-
 export default {
     getMessages,
+    addMessage
     // getMessage,
-    // addMessage
 };

@@ -1,12 +1,27 @@
 import express from "express";
 import messageService from "../services/messageService";
-// import toNewMessage from "../utils/utils";
+import toNewMessage from "../utils/utils";
 
 const router = express.Router();
 
 router.get('/', async (_req, res) => {
     const messages = await messageService.getMessages();
     res.json(messages);
+});
+
+router.post('/', (req, res) => {
+    try {
+        const newMessage = toNewMessage(req.body);
+        const addedMessage = messageService.addMessage(newMessage);
+        res.json(addedMessage);
+    }
+    catch (error: unknown) {
+        let errorMsg = "Something went wrong.";
+        if (error instanceof Error) {
+            errorMsg += " Error: " + error.message;
+        }
+        res.status(400).send(errorMsg);
+    }
 });
 
 // router.get("/:id", (req, res) => {
@@ -16,21 +31,6 @@ router.get('/', async (_req, res) => {
 //     }
 //     else {
 //         res.status(400).end();
-//     }
-// });
-
-// router.post('/', (req, res) => {
-//     try {
-//         const newMessage = toNewMessage(req.body);
-//         const addedMessage = messageService.addMessage(newMessage);
-//         res.json(addedMessage);
-//     }
-//     catch (error: unknown) {
-//         let errorMsg = "Something went wrong.";
-//         if (error instanceof Error) {
-//             errorMsg += " Error: " + error.message;
-//         }
-//         res.status(400).send(errorMsg);
 //     }
 // });
 
