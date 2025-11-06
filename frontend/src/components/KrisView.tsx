@@ -10,27 +10,17 @@ interface KrisViewProps {
 }
 
 const KrisView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }: KrisViewProps) => {
+    // remove
+    console.log(messages);
 
     useEffect(() => {
         setFrom("Kris");
     }, [setFrom]);
 
     return (
-        <div>
+        <div className="container">
             <div className="chat-container">
                 <div className="chat">
-                    <div className="msg-container left">
-                        <span className="msg-lbl">vigzi's msg 4 u</span>
-                        <span className="msg vigzi">
-                            {messages.find(m => m.from === "Vigzi")?.message}
-                        </span>
-                    </div>
-                    <div className="msg-container right">
-                        <span className="msg-lbl">ur msg 4 vigzi</span>
-                        <span className="msg kris">
-                            {messages.find(m => m.from === "Vigzi")?.message}
-                        </span>
-                    </div>
                 </div>
                 <div className="chat-box">
                     <textarea
@@ -38,14 +28,14 @@ const KrisView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }: 
                         value={newMessage}
                         onChange={({ target }) => setNewMessage(target.value)}
                     />
+                    <button
+                        className="btn-heart"
+                        onClick={addMessage}
+                    >
+                        💙
+                    </button>
                 </div>
             </div>
-            <button
-                className="btn-heart"
-                onClick={addMessage}
-            >
-                💙
-            </button>
         </div>
     );
 };
