@@ -1,4 +1,3 @@
-import phone from "../assets/iphone6.png";
 import { useEffect } from "react";
 import type { MessageEntry } from "../types";
 
@@ -18,7 +17,6 @@ const KrisView = ({ messages, newMessage, setNewMessage, setFrom, addMessage }: 
 
     return (
         <div>
-            <img src={phone} alt="fak" width="454" height="872" />
             <div className="chat-container">
                 <div className="chat">
                     <div className="msg-container left">

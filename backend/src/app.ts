@@ -1,5 +1,5 @@
 import express from "express";
-import { PORT, DB_URL } from "./utils/config";
+import { DB_URL } from "./utils/config";
 import messageRouter from "./routes/messages";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -21,9 +21,5 @@ app.use(express.static("dist"));
 app.use(express.json());
 
 app.use("/api/messages", messageRouter);
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 
 export default app;

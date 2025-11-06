@@ -8,7 +8,8 @@ const toNewMessage = (object: unknown): NewMessageEntry => {
     if ("from" in object && "message" in object) {
         const newMessage: NewMessageEntry = {
             from: parseFrom(object.from),
-            message: parseMessage(object.message)
+            message: parseMessage(object.message),
+            date: new Date()
         };
         return newMessage;
     }
@@ -33,6 +34,6 @@ const parseMessage = (message: unknown): string => {
         throw new Error("Incorrect or missing 'message' field");
     }
     return message;
-}
+};
 
 export default toNewMessage;

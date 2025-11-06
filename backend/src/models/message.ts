@@ -3,11 +3,13 @@ import mongoose from "mongoose";
 export interface IMessage extends mongoose.Document {
     message: string;
     from: string;
+    date: Date;
 }
 
 const messageSchema = new mongoose.Schema<IMessage>({
     message: { type: String, required: true },
-    from: { type: String, required: true }
+    from: { type: String, required: true },
+    date: { type: Date, default: Date.now }
 });
 
 messageSchema.set("toJSON", {
