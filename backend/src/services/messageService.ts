@@ -9,7 +9,8 @@ const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
     const newMessage = new MessageModel({
         from: entry.from,
         message: entry.message,
-        date: entry.date
+        date: entry.date,
+        saved: entry.saved
     });
     const savedMessage = await newMessage.save();
     return savedMessage;

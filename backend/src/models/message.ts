@@ -4,12 +4,14 @@ export interface IMessage extends mongoose.Document {
     message: string;
     from: string;
     date: Date;
+    saved: boolean;
 }
 
 const messageSchema = new mongoose.Schema<IMessage>({
     message: { type: String, required: true },
     from: { type: String, required: true },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    saved: { type: Boolean, default: false }
 });
 
 messageSchema.set("toJSON", {

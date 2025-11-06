@@ -3,6 +3,7 @@ export interface MessageEntry {
     from: string;
     message: string;
     date: Date;
+    saved: Boolean;
 }
 
 export type NewMessageEntry = Omit<MessageEntry, "id">;
