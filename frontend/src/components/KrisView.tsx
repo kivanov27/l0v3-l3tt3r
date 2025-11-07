@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 interface KrisViewProps {
     messages: MessageEntry[];
     setFrom: React.Dispatch<React.SetStateAction<string>>;
-    newMessage: string; // REMOVE
+    newMessage: string;
     setNewMessage: React.Dispatch<React.SetStateAction<string>>;
     addMessage: (event: React.SyntheticEvent) => void;
 }
 
-const KrisView = ({ messages, setFrom, setNewMessage, addMessage }: KrisViewProps) => {
+const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: KrisViewProps) => {
     const [dates, setDates] = useState<string[]>();
 
     useEffect(() => {
@@ -100,7 +100,9 @@ const KrisView = ({ messages, setFrom, setNewMessage, addMessage }: KrisViewProp
                     </div>
                     <div className="chatbox">
                         <textarea 
+                            id="chatbox"
                             className="chatbox-text" 
+                            value={newMessage}
                             placeholder="type your message here..." 
                             onChange={({ target }) => setNewMessage(target.value)}
                         />

@@ -12,22 +12,25 @@ const App = () => {
     const [newMessage, setNewMessage] = useState<string>('');
     const [from, setFrom] = useState<string>('');
 
+    const fetchMessages = async () => {
+        const fetchedMessages = await getAllMessages();
+        const parsedMessages = fetchedMessages.map(m => ({
+            ...m,
+            date: m.date ? new Date(m.date) : undefined
+        }));
+        setMessages(parsedMessages);
+    };
+
     useEffect(() => {
-        const fetchMessages = async () => {
-            const fetchedMessages = await getAllMessages();
-            const parsedMessages = fetchedMessages.map(m => ({
-                ...m,
-                date: m.date ? new Date(m.date) : undefined
-            }));
-            setMessages(parsedMessages);
-        };
         fetchMessages();
-    }, []);
+    }, [messages]);
 
     const addMessage = (event: React.SyntheticEvent) => {
         event.preventDefault();
         const msgToAdd: NewMessageEntry = { from, message: newMessage };
+        setNewMessage("");
         createMessage(msgToAdd);
+        fetchMessages();
     };
 
     return (
