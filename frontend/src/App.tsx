@@ -13,7 +13,15 @@ const App = () => {
     const [from, setFrom] = useState<string>('');
 
     useEffect(() => {
-        getAllMessages().then(data => setMessages(data));
+        const fetchMessages = async () => {
+            const fetchedMessages = await getAllMessages();
+            const parsedMessages = fetchedMessages.map(m => ({
+                ...m,
+                date: m.date ? new Date(m.date) : undefined
+            }));
+            setMessages(parsedMessages);
+        };
+        fetchMessages();
     }, []);
 
     const addMessage = (event: React.SyntheticEvent) => {
