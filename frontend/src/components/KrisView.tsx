@@ -2,26 +2,31 @@ import homeIcon from "../assets/home.png";
 import savedIcon from "../assets/saved.png";
 import settingsIcon from "../assets/settings.png";
 import bearIcon from "../assets/bear.png";
-import chickenIcon from "../assets/chicken.png"
+import chickenIcon from "../assets/chicken.png";
+import letterIcon from "../assets/letter.png";
 import type { MessageEntry } from "../types";
 import { useEffect, useState } from "react";
 
 interface KrisViewProps {
     messages: MessageEntry[];
     setFrom: React.Dispatch<React.SetStateAction<string>>;
-    // newMessage: string;
-    // setNewMessage: React.Dispatch<React.SetStateAction<string>>;
-    // addMessage: (event: React.SyntheticEvent) => void;
+    newMessage: string; // REMOVE
+    setNewMessage: React.Dispatch<React.SetStateAction<string>>;
+    addMessage: (event: React.SyntheticEvent) => void;
 }
 
-const KrisView = ({ messages, setFrom }: KrisViewProps) => {
+const KrisView = ({ messages, setFrom, setNewMessage, addMessage }: KrisViewProps) => {
     const [dates, setDates] = useState<string[]>();
 
     useEffect(() => {
         setFrom("Kris");
         const uniqueDates = [... new Set(
             messages
-                .map(msg => msg.date ? new Date(msg.date).toLocaleDateString() : undefined)
+                .map(msg => msg.date ? new Date(msg.date).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }) : undefined)
                 .filter(d => d !== undefined)
         )];
         setDates(uniqueDates);
@@ -45,7 +50,11 @@ const KrisView = ({ messages, setFrom }: KrisViewProps) => {
                                     </span>
                                 </div>
                                 {messages
-                                    .filter(m => m.date?.toLocaleDateString() === d)
+                                    .filter(m => m.date?.toLocaleDateString("en-GB", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric"
+                                    }) === d)
                                     .map(m => {
                                         if (m.from === "Kris") {
                                             return (
@@ -90,6 +99,17 @@ const KrisView = ({ messages, setFrom }: KrisViewProps) => {
                         )}
                     </div>
                     <div className="chatbox">
+                        <textarea 
+                            className="chatbox-text" 
+                            placeholder="type your message here..." 
+                            onChange={({ target }) => setNewMessage(target.value)}
+                        />
+                        <div 
+                            className="chatbox-btn"
+                            onClick={addMessage}
+                        >
+                            <img src={letterIcon} draggable="false" />
+                        </div>
                     </div>
                 </div>
             </div>
