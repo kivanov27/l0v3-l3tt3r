@@ -1,5 +1,5 @@
 import { IUser } from "../models/user";
-import { NewMessageEntry, User } from "./types";
+import { NewMessageEntry, NewUser } from "./types";
 import bcrypt from 'bcrypt';
 import mongoose from "mongoose";
 
@@ -35,16 +35,15 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
     }
 };
 
-export const toNewUser = async (object: unknown): Promise<User> => {
+export const toNewUser = (object: unknown): NewUser => {
     if (!object || typeof(object) !== "object") {
         throw new Error("Incorrect or missing data");
     }
 
     if ("username" in object && "password" in object) {
-        const newUser: User = {
+        const newUser: NewUser = {
             username: parseUsername(object.username),
-            passwordHash: await encryptPassword(parsePassword(object.password)),
-            messages: []
+            password: parsePassword(object.password),
         }
         return newUser;
     }

@@ -7,3 +7,14 @@ export interface MessageEntry {
 }
 
 export type NewMessageEntry = Omit<MessageEntry, "id">;
+
+export interface User {
+    username: string;
+    passwordHash: string;
+    messages: (MessageEntry | string)[];
+}
+
+export interface NewUser {
+    username: string;
+    password: string;
+}

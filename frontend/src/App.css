@@ -136,6 +136,7 @@
 }
 .msg-mine {
     float: right;
+    justify-content: end;
 }
 
 .msg-pic-container {

@@ -16,7 +16,7 @@ const getUser = async (username: string) => {
 const createUser = async (entry: any) => {
     const newUser = new UserModel({
         username: entry.username,
-        passwordHash: encryptPassword(entry.password),
+        passwordHash: await encryptPassword(entry.password),
     }); 
     const savedUser = await newUser.save();
     return savedUser;

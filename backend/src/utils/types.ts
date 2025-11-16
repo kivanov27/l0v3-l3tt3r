@@ -18,3 +18,8 @@ export interface User {
     passwordHash: string;
     messages: (Types.ObjectId | IMessage)[];
 }
+
+export interface NewUser {
+    username: string;
+    password: string;
+}
