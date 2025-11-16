@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import { IUser } from "./user";
 
 export interface IMessage extends mongoose.Document {
     message: string;
     from: string;
     date: Date;
     saved: boolean;
+    user: (mongoose.Types.ObjectId | IUser);
 }
 
 const messageSchema = new mongoose.Schema<IMessage>({
@@ -23,5 +25,4 @@ messageSchema.set("toJSON", {
 });
 
 const MessageModel: mongoose.Model<IMessage> = mongoose.model<IMessage>("Message", messageSchema);
-
 export default MessageModel;

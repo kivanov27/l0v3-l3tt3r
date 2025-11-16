@@ -1,17 +1,21 @@
-import { NewMessageEntry } from "./types";
+import { IUser } from "../models/user";
+import { NewMessageEntry, User } from "./types";
+import bcrypt from 'bcrypt';
+import mongoose from "mongoose";
 
-const toNewMessage = (object: unknown): NewMessageEntry => {
+export const toNewMessage = (object: unknown): NewMessageEntry => {
     if (!object || typeof object !== "object") {
         throw new Error("Incorrect or missing data");
     }
 
-    if ("from" in object && "message" in object) {
+    if ("from" in object && "message" in object && "user" in object) {
         if ("saved" in object) {
             const newMessage: NewMessageEntry = {
                 from: parseFrom(object.from),
                 message: parseMessage(object.message),
                 date: new Date(),
-                saved: parseSaved(object.saved)
+                user: object.user as mongoose.Types.ObjectId | IUser,
+                saved: parseSaved(object.saved),
             };
             return newMessage;
         }
@@ -20,10 +24,29 @@ const toNewMessage = (object: unknown): NewMessageEntry => {
                 from: parseFrom(object.from),
                 message: parseMessage(object.message),
                 date: new Date(),
+                user: object.user as mongoose.Types.ObjectId | IUser,
                 saved: false
             };
             return newMessage;
         }
+    }
+    else {
+        throw new Error("Incorrect data, some fields are missing");
+    }
+};
+
+export const toNewUser = async (object: unknown): Promise<User> => {
+    if (!object || typeof(object) !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+
+    if ("username" in object && "password" in object) {
+        const newUser: User = {
+            username: parseUsername(object.username),
+            passwordHash: await encryptPassword(parsePassword(object.password)),
+            messages: []
+        }
+        return newUser;
     }
     else {
         throw new Error("Incorrect data, some fields are missing");
@@ -59,4 +82,21 @@ const parseSaved = (saved: unknown): boolean => {
     return saved;
 }
 
-export default toNewMessage;
+const parseUsername = (username: unknown): string => {
+    if (!isString(username)) {
+        throw new Error("Incorrect or missing 'username' field");
+    }
+    return username;
+}
+
+const parsePassword = (password: unknown): string => {
+    if (!isString(password)) {
+        throw new Error("Incorrect or missing 'password' field");
+    }
+    return password;
+}
+
+export const encryptPassword = async (password: string) => {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+};

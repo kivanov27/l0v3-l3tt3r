@@ -1,9 +1,10 @@
 import express from "express";
 import { DB_URL } from "./utils/config";
-import messageRouter from "./routes/messages";
 import mongoose from "mongoose";
 import cors from "cors";
 import logger from "./utils/logger";
+import messageRouter from "./routes/messages";
+import userRouter from "./routes/users";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(express.static("dist"));
 app.use(express.json());
 
 app.use("/api/messages", messageRouter);
+app.use("/api/users", userRouter);
 
 export default app;

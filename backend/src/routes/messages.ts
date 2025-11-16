@@ -1,6 +1,6 @@
 import express from "express";
 import messageService from "../services/messageService";
-import toNewMessage from "../utils/utils";
+import { toNewMessage } from "../utils/utils";
 
 const router = express.Router();
 
