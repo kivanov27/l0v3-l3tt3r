@@ -5,6 +5,7 @@ import cors from "cors";
 import logger from "./utils/logger";
 import messageRouter from "./routes/messages";
 import userRouter from "./routes/users";
+import loginRouter from "./routes/login";
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use(express.json());
 
 app.use("/api/messages", messageRouter);
 app.use("/api/users", userRouter);
+app.use("/api/login", loginRouter);
 
 export default app;
