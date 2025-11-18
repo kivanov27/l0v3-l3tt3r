@@ -1,5 +1,6 @@
 import { IUser } from "../models/user";
 import { NewMessageEntry, NewUser } from "./types";
+import { Request } from "express";
 import bcrypt from 'bcrypt';
 import mongoose from "mongoose";
 
@@ -98,4 +99,12 @@ const parsePassword = (password: unknown): string => {
 export const encryptPassword = async (password: string) => {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
+};
+
+export const getTokenFrom = (req: Request): string => {
+    const authorization = req.get('authorization');
+    if (authorization && authorization.startsWith('Bearer ')) {
+        return authorization.replace('Bearer ', '');
+    }
+    return '';
 };
