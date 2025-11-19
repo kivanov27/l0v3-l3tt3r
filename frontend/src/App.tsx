@@ -1,16 +1,16 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CharPick from "./components/CharPick";
-import VigziView from "./components/VigziView";
 import KrisView from "./components/KrisView";
-import type { MessageEntry, NewMessageEntry } from './types';
+import { User, type MessageEntry, type NewMessageEntry } from './types';
 import { getAllMessages, createMessage } from './services/messageService';
 import { useEffect, useState } from 'react';
+import LoginPage from './components/LoginPage';
 
 const App = () => {
     const [messages, setMessages] = useState<MessageEntry[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
     const [from, setFrom] = useState<string>('');
+    const [user, setUser] = useState<User | null>(null);
 
     const fetchMessages = async () => {
         const fetchedMessages = await getAllMessages();
@@ -36,21 +36,9 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<CharPick />} />
+                <Route path="/" element={<LoginPage setUser={setUser} />} />
                 <Route 
-                    path="/vigzi" 
-                    element={
-                        <VigziView 
-                            messages={messages} 
-                            newMessage={newMessage}
-                            setNewMessage={setNewMessage} 
-                            setFrom={setFrom} 
-                            addMessage={addMessage} 
-                        />
-                    } 
-                />
-                <Route 
-                    path="/kris" 
+                    path="/chat" 
                     element={
                         <KrisView 
                             messages={messages} 
