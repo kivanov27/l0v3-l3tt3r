@@ -22,6 +22,12 @@ const errorHandler = (error: Error, _req: Request, res: Response, next: NextFunc
     else if (error.name === "ValidationError") {
         return res.status(400).send({ error: error.message });
     }
+    else if (error.name === "MongoServerError" && error.message.includes("E11000 duplicate key error")) {
+        return res.status(400).json({ error: "Expected 'username' to be unique." });
+    }
+    else if (error.name === "JsonWebTokenError") {
+        return res.status(401).json({ error: "Invalid token." });
+    }
 
     next(error);
 };
