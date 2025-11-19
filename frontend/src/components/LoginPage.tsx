@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { login } from "../services/loginService";
 import type { User } from "../types";
+import { useNavigate } from "react-router-dom";
 
 interface LoginPageProps {
-    setUser: React.Dispatch<React.SetStateAction<User>>;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const LoginPage = ({ setUser }: LoginPageProps) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
+
+    const navigate = useNavigate();
 
     const handleLogin = async (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -19,6 +22,7 @@ const LoginPage = ({ setUser }: LoginPageProps) => {
             setUser(user);
             setUsername('');
             setPassword('');
+            navigate('/chat');
         }
         catch (error: unknown) {
             setErrorMessage("Wrong credentials." + error);
@@ -31,35 +35,45 @@ const LoginPage = ({ setUser }: LoginPageProps) => {
                 onSubmit={handleLogin} 
                 className="credentials-form"
             >
-                <label 
-                    htmlFor="username" 
-                    className="credentials-label"
-                >
-                    username:
-                </label>
-                <input 
-                    id="username" 
-                    type="text" 
-                    onChange={({ target }) => setUsername(target.value)} 
-                    className="credentials-input"
-                />
-                <label 
-                    htmlFor="password"
-                    className="credentials-label"
-                >
-                    password:
-                </label>
-                <input 
-                    id="password" 
-                    type="password" 
-                    onChange={({ target }) => setPassword(target.value)} 
-                    className="credentials-input"
-                />
+                <div className="credentials-group">
+                    <label 
+                        htmlFor="username" 
+                        className="credentials-label"
+                    >
+                        username:
+                    </label>
+                    <input 
+                        id="username" 
+                        type="text" 
+                        onChange={({ target }) => setUsername(target.value)} 
+                        className="credentials-input"
+                    />
+                </div>
+                <div className="credentials-group">
+                    <label 
+                        htmlFor="password"
+                        className="credentials-label"
+                    >
+                        password:
+                    </label>
+                    <input 
+                        id="password" 
+                        type="password" 
+                        onChange={({ target }) => setPassword(target.value)} 
+                        className="credentials-input"
+                    />
+                </div>
                 <button 
                     type="submit" 
-                    className="btn-submit"
+                    className="credentials-button"
                 >
                     login
+                </button>
+                <button 
+                    className="credentials-button"
+                    onClick={() => navigate('/register')}
+                >
+                    register
                 </button>
                 <p className="error-message">
                     {errorMessage}

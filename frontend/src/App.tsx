@@ -1,10 +1,11 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import KrisView from "./components/KrisView";
-import { User, type MessageEntry, type NewMessageEntry } from './types';
+import LoginPage from './components/LoginPage';
+import RegistrationPage from './components/RegistrationPage';
+import type { User, MessageEntry, NewMessageEntry } from './types';
 import { getAllMessages, createMessage } from './services/messageService';
 import { useEffect, useState } from 'react';
-import LoginPage from './components/LoginPage';
 
 const App = () => {
     const [messages, setMessages] = useState<MessageEntry[]>([]);
@@ -37,6 +38,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<LoginPage setUser={setUser} />} />
+                <Route path="/register" element={<RegistrationPage />} />
                 <Route 
                     path="/chat" 
                     element={
