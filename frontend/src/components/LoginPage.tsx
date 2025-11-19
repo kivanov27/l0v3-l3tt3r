@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../services/loginService";
 import type { User } from "../types";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "../services/messageService";
 
 interface LoginPageProps {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -19,10 +20,11 @@ const LoginPage = ({ setUser }: LoginPageProps) => {
 
         try {
             const user = await login({ username, password });
+            window.localStorage.setItem('loveLetterUser', JSON.stringify(user));
+            setToken(user.token);
             setUser(user);
             setUsername('');
             setPassword('');
-            navigate('/chat');
         }
         catch (error: unknown) {
             setErrorMessage("Wrong credentials." + error);

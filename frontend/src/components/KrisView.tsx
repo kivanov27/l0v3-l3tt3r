@@ -13,6 +13,7 @@ interface KrisViewProps {
     newMessage: string;
     setNewMessage: React.Dispatch<React.SetStateAction<string>>;
     addMessage: (event: React.SyntheticEvent) => void;
+    logOut: () => void;
 }
 
 const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: KrisViewProps) => {

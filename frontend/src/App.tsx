@@ -4,7 +4,7 @@ import KrisView from "./components/KrisView";
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import type { User, MessageEntry, NewMessageEntry } from './types';
-import { getAllMessages, createMessage } from './services/messageService';
+import { getAllMessages, createMessage, setToken } from './services/messageService';
 import { useEffect, useState } from 'react';
 
 const App = () => {
@@ -23,8 +23,14 @@ const App = () => {
     };
 
     useEffect(() => {
-        fetchMessages();
-    }, [messages]);
+        const loggedUserJSON = window.localStorage.getItem('loveLetterUser');
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON);
+            setUser(user);
+            setToken(user.token);
+            fetchMessages();
+        }
+    }, [messages, user]);
 
     const addMessage = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -34,23 +40,18 @@ const App = () => {
         fetchMessages();
     };
 
+    const logOut = () => {
+        window.localStorage.removeItem('loveLetterUser');
+    }
+
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<LoginPage setUser={setUser} />} />
+                <Route path="/" element={
+                    user ? <KrisView messages={messages} newMessage={newMessage} setNewMessage={setNewMessage} setFrom={setFrom} addMessage={addMessage} logOut={logOut} />
+                        : <LoginPage setUser={setUser} />
+                } />
                 <Route path="/register" element={<RegistrationPage />} />
-                <Route 
-                    path="/chat" 
-                    element={
-                        <KrisView 
-                            messages={messages} 
-                            newMessage={newMessage}
-                            setNewMessage={setNewMessage} 
-                            setFrom={setFrom} 
-                            addMessage={addMessage} 
-                        />
-                    } 
-                />
             </Routes>
         </BrowserRouter>
     );
