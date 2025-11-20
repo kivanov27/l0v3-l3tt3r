@@ -30,7 +30,7 @@ const App = () => {
             setToken(user.token);
             fetchMessages();
         }
-    }, [messages, user]);
+    }, [messages]);
 
     const addMessage = (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -49,7 +49,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={
                     user ? <KrisView messages={messages} newMessage={newMessage} setNewMessage={setNewMessage} setFrom={setFrom} addMessage={addMessage} logOut={logOut} />
-                        : <LoginPage setUser={setUser} />
+                        : <LoginPage setUser={setUser} fetchMessages={fetchMessages} />
                 } />
                 <Route path="/register" element={<RegistrationPage />} />
             </Routes>

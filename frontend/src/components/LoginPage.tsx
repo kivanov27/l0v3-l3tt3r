@@ -6,9 +6,10 @@ import { setToken } from "../services/messageService";
 
 interface LoginPageProps {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    fetchMessages: () => void;
 }
 
-const LoginPage = ({ setUser }: LoginPageProps) => {
+const LoginPage = ({ setUser, fetchMessages }: LoginPageProps) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -23,6 +24,7 @@ const LoginPage = ({ setUser }: LoginPageProps) => {
             window.localStorage.setItem('loveLetterUser', JSON.stringify(user));
             setToken(user.token);
             setUser(user);
+            fetchMessages();
             setUsername('');
             setPassword('');
         }
