@@ -46,6 +46,8 @@ export const toNewUser = (object: unknown): NewUser => {
             username: parseUsername(object.username),
             password: parsePassword(object.password),
         }
+        if ("iconUrl" in object) newUser.iconUrl = parseIconUrl(object.iconUrl);
+        if ("bgColor" in object) newUser.bgColor = parseBgColor(object.bgColor);
         return newUser;
     }
     else {
@@ -94,6 +96,20 @@ const parsePassword = (password: unknown): string => {
         throw new Error("Incorrect or missing 'password' field");
     }
     return password;
+}
+
+const parseIconUrl = (iconUrl: unknown): string => {
+    if (!isString(iconUrl)) {
+        throw new Error("Incorrect or missing 'iconUrl' field");
+    }
+    return iconUrl;
+}
+
+const parseBgColor = (bgColor: unknown): string => {
+    if (!isString(bgColor)) {
+        throw new Error("Incorrect or missing 'bgColor' field");
+    }
+    return bgColor;
 }
 
 export const encryptPassword = async (password: string) => {

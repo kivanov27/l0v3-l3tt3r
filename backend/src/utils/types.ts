@@ -17,9 +17,13 @@ export interface User {
     username: string;
     passwordHash: string;
     messages: (Types.ObjectId | IMessage)[];
+    iconUrl?: string;
+    bgColor?: string;
 }
 
 export interface NewUser {
     username: string;
     password: string;
+    iconUrl?: string;
+    bgColor?: string;
 }

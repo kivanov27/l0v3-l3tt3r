@@ -4,23 +4,22 @@ import settingsIcon from "../assets/settings.png";
 import bearIcon from "../assets/bear.png";
 import chickenIcon from "../assets/chicken.png";
 import letterIcon from "../assets/letter.png";
-import type { MessageEntry } from "../types";
+import type { MessageEntry, User } from "../types";
 import { useEffect, useState } from "react";
 
-interface KrisViewProps {
+interface ChatProps {
+    user: User; 
     messages: MessageEntry[];
-    setFrom: React.Dispatch<React.SetStateAction<string>>;
     newMessage: string;
     setNewMessage: React.Dispatch<React.SetStateAction<string>>;
     addMessage: (event: React.SyntheticEvent) => void;
     logOut: () => void;
 }
 
-const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: KrisViewProps) => {
+const Chat = ({ user, messages, newMessage, setNewMessage, addMessage }: ChatProps) => {
     const [dates, setDates] = useState<string[]>();
 
     useEffect(() => {
-        setFrom("Kris");
         const uniqueDates = [... new Set(
             messages
                 .map(msg => msg.date ? new Date(msg.date).toLocaleDateString("en-GB", {
@@ -31,7 +30,7 @@ const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: 
                 .filter(d => d !== undefined)
         )];
         setDates(uniqueDates);
-    }, [setFrom, messages]);
+    }, [messages]);
 
     return (
         <div className="container">
@@ -57,7 +56,7 @@ const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: 
                                         year: "numeric"
                                     }) === d)
                                     .map(m => {
-                                        if (m.from === "Kris") {
+                                        if (m.from === user.username) {
                                             return (
                                                 <div className="msg msg-mine" key={m.id}>
                                                     <span className="msg-time">
@@ -76,7 +75,7 @@ const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: 
                                                 </div>
                                             )
                                         }
-                                        else if (m.from === "Vigzi") {
+                                        else {
                                             return (
                                                 <div className="msg msg-other" key={m.id}>
                                                     <div className="msg-pic-container chicken-bg">
@@ -120,4 +119,4 @@ const KrisView = ({ messages, setFrom, newMessage, setNewMessage, addMessage }: 
     );
 };
 
-export default KrisView;
+export default Chat;

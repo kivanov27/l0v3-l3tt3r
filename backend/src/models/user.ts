@@ -5,6 +5,8 @@ export interface IUser extends mongoose.Document {
     username: string;
     passwordHash: string;
     messages: (mongoose.Types.ObjectId | IMessage)[];
+    iconUrl?: string;
+    bgColor?: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -16,6 +18,8 @@ const userSchema = new mongoose.Schema<IUser>({
             ref: 'Message'
         }
     ],
+    iconUrl: { type: String, required: false },
+    bgColor: { type: String, required: false }
 });
 
 userSchema.set("toJSON", {
