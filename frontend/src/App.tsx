@@ -1,15 +1,16 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Chat from './components/Chat';
+// import Chat from './components/Chat';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
+import Friends from './components/Friends';
 import type { User, MessageEntry, NewMessageEntry } from './types';
 import { getAllMessages, createMessage, setToken } from './services/messageService';
 import { useEffect, useState } from 'react';
 
 const App = () => {
     const [messages, setMessages] = useState<MessageEntry[]>([]);
-    const [newMessage, setNewMessage] = useState<string>('');
+    // const [newMessage, setNewMessage] = useState<string>('');
     const [user, setUser] = useState<User | null>(null);
 
     const fetchMessages = async () => {
@@ -31,20 +32,21 @@ const App = () => {
         }
     }, [messages]);
 
-    const addMessage = (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        if (user) {
-            const msgToAdd: NewMessageEntry = { from: user.username, to: '', message: newMessage }; // CHANGE TO
-            setNewMessage("");
-            createMessage(msgToAdd);
-            fetchMessages();
-        }
-        else {
-            console.error("No user.");
-        }
-    };
+    // const addMessage = (event: React.SyntheticEvent) => {
+    //     event.preventDefault();
+    //     if (user) {
+    //         const msgToAdd: NewMessageEntry = { from: user.username, to: '', message: newMessage }; // CHANGE TO
+    //         setNewMessage("");
+    //         createMessage(msgToAdd);
+    //         fetchMessages();
+    //     }
+    //     else {
+    //         console.error("No user.");
+    //     }
+    // };
 
     const logOut = () => {
+        setUser(null);
         window.localStorage.removeItem('loveLetterUser');
     }
 
@@ -52,9 +54,13 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={
-                    user ? <Chat user={user} messages={messages} newMessage={newMessage} setNewMessage={setNewMessage} addMessage={addMessage} logOut={logOut} />
+                    user ? <Friends user={user} logOut={logOut} />
                         : <LoginPage setUser={setUser} fetchMessages={fetchMessages} />
                 } />
+                {/* <Route path="/" element={ */}
+                {/*     user ? <Chat user={user} messages={messages} newMessage={newMessage} setNewMessage={setNewMessage} addMessage={addMessage} logOut={logOut} /> */}
+                {/*         : <LoginPage setUser={setUser} fetchMessages={fetchMessages} /> */}
+                {/* } /> */}
                 <Route path="/register" element={<RegistrationPage />} />
             </Routes>
         </BrowserRouter>

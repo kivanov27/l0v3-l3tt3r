@@ -232,3 +232,11 @@
 .chatbox-btn:active {
     scale: 0.9;
 }
+
+/* Util classes */
+.clickable {
+    cursor: pointer;
+}
+.clickable:active {
+    scale: 0.9;
+}
