@@ -2,7 +2,7 @@ import MessageModel from "../models/message";
 import { MessageEntry, NewMessageEntry } from "../utils/types";
 
 const getMessages = async () => {
-    return await MessageModel.find({});
+    return await MessageModel.find({}).populate('user');
 };
 
 const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
@@ -10,7 +10,8 @@ const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
         from: entry.from,
         message: entry.message,
         date: entry.date,
-        saved: entry.saved
+        saved: entry.saved,
+        user: entry.user
     });
     const savedMessage = await newMessage.save();
     return savedMessage;

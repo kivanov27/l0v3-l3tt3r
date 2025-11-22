@@ -13,7 +13,12 @@ const messageSchema = new mongoose.Schema<IMessage>({
     message: { type: String, required: true },
     from: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    saved: { type: Boolean, default: false }
+    saved: { type: Boolean, default: false },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    }
 });
 
 messageSchema.set("toJSON", {
