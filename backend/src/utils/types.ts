@@ -5,6 +5,7 @@ import { IMessage } from "../models/message";
 export interface MessageEntry {
     id?: string;
     from: string;
+    to: string;
     message: string;
     date: Date;
     saved: Boolean;

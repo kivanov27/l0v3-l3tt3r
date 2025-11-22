@@ -1,6 +1,7 @@
 export interface MessageEntry {
     id: string;
     from: string;
+    to: string;
     message: string;
     date?: Date;
     saved?: boolean;
@@ -12,9 +13,13 @@ export interface User {
     username: string;
     passwordHash: string;
     messages: (MessageEntry | string)[];
+    iconUrl: string;
+    bgColor: string;
 }
 
 export interface NewUser {
     username: string;
     password: string;
+    iconUrl: string;
+    bgColor: string;
 }

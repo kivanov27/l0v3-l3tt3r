@@ -34,7 +34,7 @@ const App = () => {
     const addMessage = (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (user) {
-            const msgToAdd: NewMessageEntry = { from: user.username, message: newMessage };
+            const msgToAdd: NewMessageEntry = { from: user.username, to: '', message: newMessage }; // CHANGE TO
             setNewMessage("");
             createMessage(msgToAdd);
             fetchMessages();

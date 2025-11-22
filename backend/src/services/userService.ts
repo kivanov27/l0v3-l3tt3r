@@ -18,8 +18,12 @@ const createUser = async (entry: any) => {
         username: entry.username,
         passwordHash: await encryptPassword(entry.password),
     }); 
-    if ('iconUrl' in entry) newUser.iconUrl = entry.iconUrl;
-    if ('bgColor' in entry) newUser.bgColor = entry.bgColor;
+    if ('iconUrl' in entry) {
+        newUser.iconUrl = entry.iconUrl;
+    }
+    if ('bgColor' in entry) {
+        entry.bgColor === '' ? newUser.bgColor = '#ad8109' : newUser.bgColor = entry.bgColor;
+    }
     const savedUser = await newUser.save();
     return savedUser;
 };

@@ -5,6 +5,8 @@ import { createUser } from "../services/userService";
 const RegistrationPage = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [iconUrl, setIconUrl] = useState<string>('');
+    const [bgColor, setBgColor] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
 
     const navigate = useNavigate();
@@ -16,7 +18,7 @@ const RegistrationPage = () => {
             setErrorMessage("Missing username or password");
         }
         else {
-            await createUser({ username: username, password: password });
+            await createUser({ username: username, password: password, iconUrl: iconUrl, bgColor: bgColor });
             navigate('/');
         }
     };
@@ -41,6 +43,7 @@ const RegistrationPage = () => {
                         className="credentials-input"
                     />
                 </div>
+
                 <div className="credentials-group">
                     <label 
                         htmlFor="password"
@@ -55,6 +58,37 @@ const RegistrationPage = () => {
                         className="credentials-input"
                     />
                 </div>
+
+                <div className="credentials-group">
+                    <label 
+                        htmlFor="iconUrl"
+                        className="credentials-label"
+                    >
+                        icon url:
+                    </label>
+                    <input 
+                        id="iconUrl" 
+                        type="text" 
+                        onChange={({ target }) => setIconUrl(target.value)} 
+                        className="credentials-input"
+                    />
+                </div>
+
+                <div className="credentials-group">
+                    <label 
+                        htmlFor="bgColor"
+                        className="credentials-label"
+                    >
+                        icon bg color:
+                    </label>
+                    <input 
+                        id="bgColor" 
+                        type="text" 
+                        onChange={({ target }) => setBgColor(target.value)} 
+                        className="credentials-input"
+                    />
+                </div>
+
                 <button 
                     type="submit" 
                     className="credentials-button"
