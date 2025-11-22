@@ -18,13 +18,13 @@ const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
     return savedMessage;
 };
 
-// const getMessage = (id: number): MessageEntry | undefined => {
-//     const message = messages.find(msg => msg.id === id);
-//     return message;
-// };
+const getMessage = async (id: string): Promise<MessageEntry | null> => {
+    const message = await MessageModel.findOne({ id: id });
+    return message;
+};
 
 export default {
     getMessages,
-    addMessage
-    // getMessage,
+    addMessage,
+    getMessage
 };
