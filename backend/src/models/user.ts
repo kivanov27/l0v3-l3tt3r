@@ -4,9 +4,11 @@ import { IMessage } from "./message";
 export interface IUser extends mongoose.Document {
     username: string;
     passwordHash: string;
-    messages: (mongoose.Types.ObjectId | IMessage)[];
+    messages?: (mongoose.Types.ObjectId | IMessage)[];
     iconUrl?: string;
     bgColor?: string;
+    friends?: (mongoose.Types.ObjectId | IUser)[];
+    requests?: string[];
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -15,11 +17,22 @@ const userSchema = new mongoose.Schema<IUser>({
     messages: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Message'
+            ref: 'Message',
+            required: false
         }
     ],
     iconUrl: { type: String, required: false },
-    bgColor: { type: String, required: false }
+    bgColor: { type: String, required: false },
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: false
+        }
+    ],
+    requests: [
+        { type: String, required: false }
+    ]
 });
 
 userSchema.set("toJSON", {

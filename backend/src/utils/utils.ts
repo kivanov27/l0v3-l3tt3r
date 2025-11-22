@@ -13,6 +13,7 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
         if ("saved" in object) {
             const newMessage: NewMessageEntry = {
                 from: parseFrom(object.from),
+                to: '', // FIX ME
                 message: parseMessage(object.message),
                 date: new Date(),
                 user: object.user as mongoose.Types.ObjectId | IUser,
@@ -23,6 +24,7 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
         else {
             const newMessage: NewMessageEntry = {
                 from: parseFrom(object.from),
+                to: '', // FIX ME
                 message: parseMessage(object.message),
                 date: new Date(),
                 user: object.user as mongoose.Types.ObjectId | IUser,
@@ -48,6 +50,8 @@ export const toNewUser = (object: unknown): NewUser => {
         }
         if ("iconUrl" in object) newUser.iconUrl = parseIconUrl(object.iconUrl);
         if ("bgColor" in object) newUser.bgColor = parseBgColor(object.bgColor);
+        if ("friends" in object) newUser.friends = parseFriends(object.friends);
+        if ("requests" in object) newUser.requests = parseRequests(object.requests);
         return newUser;
     }
     else {
@@ -61,7 +65,7 @@ const isString = (text: unknown): text is string => {
 
 const isBoolean = (variable: unknown): variable is boolean => {
     return typeof variable === "boolean" || variable instanceof Boolean;
-}
+};
 
 const parseFrom = (from: unknown): string => {
     if (!isString(from)) {
@@ -82,35 +86,53 @@ const parseSaved = (saved: unknown): boolean => {
         throw new Error("Incorrect or missing 'saved' field");
     }
     return saved;
-}
+};
 
 const parseUsername = (username: unknown): string => {
     if (!isString(username)) {
         throw new Error("Incorrect or missing 'username' field");
     }
     return username;
-}
+};
 
 const parsePassword = (password: unknown): string => {
     if (!isString(password)) {
         throw new Error("Incorrect or missing 'password' field");
     }
     return password;
-}
+};
 
 const parseIconUrl = (iconUrl: unknown): string => {
     if (!isString(iconUrl)) {
         throw new Error("Incorrect or missing 'iconUrl' field");
     }
     return iconUrl;
-}
+};
 
 const parseBgColor = (bgColor: unknown): string => {
     if (!isString(bgColor)) {
         throw new Error("Incorrect or missing 'bgColor' field");
     }
     return bgColor;
-}
+};
+
+const parseFriends = (friends: unknown): mongoose.Types.ObjectId[] => {
+    if (!friends) return [];
+    if (!Array.isArray(friends)) throw new Error("Friends must be an array");
+    return friends.map(f => {
+        if (!isString(f)) throw new Error("Friend ID is invalid");
+        return new mongoose.Types.ObjectId(f);
+    });
+};
+
+const parseRequests = (requests: unknown): string[] => {
+    if (!requests) return [];
+    if (!Array.isArray(requests)) throw new Error("Requests must be an array");
+    return requests.map(r => {
+        if (!isString(r)) throw new Error("Request ID is invalid");
+        return r;
+    });
+};
 
 export const encryptPassword = async (password: string) => {
     const saltRounds = 10;

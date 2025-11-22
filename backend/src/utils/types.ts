@@ -15,11 +15,14 @@ export interface MessageEntry {
 export type NewMessageEntry = Omit<MessageEntry, "id">;
 
 export interface User {
+    id?: string;
     username: string;
     passwordHash: string;
-    messages: (Types.ObjectId | IMessage)[];
+    messages?: (Types.ObjectId | IMessage)[];
     iconUrl?: string;
     bgColor?: string;
+    friends?: (Types.ObjectId | IUser)[];
+    requests?: string[];
 }
 
 export interface NewUser {
@@ -27,4 +30,6 @@ export interface NewUser {
     password: string;
     iconUrl?: string;
     bgColor?: string;
+    friends?: (Types.ObjectId | IUser)[];
+    requests?: string[];
 }

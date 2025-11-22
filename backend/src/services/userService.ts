@@ -28,8 +28,18 @@ const createUser = async (entry: any) => {
     return savedUser;
 };
 
+const updateUser = async (id: string, entry: any) => {
+    return await UserModel.findByIdAndUpdate(id, entry);
+}
+
+const deleteUser = async (id: string) => {
+    return await UserModel.findByIdAndDelete(id);
+}
+
 export default {
     getUsers,
     getUser,
-    createUser
+    createUser,
+    updateUser,
+    deleteUser
 };
