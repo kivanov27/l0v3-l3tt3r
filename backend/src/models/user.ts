@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
-import { IMessage } from "./message";
 
 export interface IUser extends mongoose.Document {
     username: string;
     passwordHash: string;
-    messages?: (mongoose.Types.ObjectId | IMessage)[];
+    messages?: mongoose.Types.ObjectId[];
     iconUrl?: string;
     bgColor?: string;
-    friends?: (mongoose.Types.ObjectId | IUser)[];
+    friends?: mongoose.Types.ObjectId[];
     requests?: string[];
 }
 
@@ -31,7 +30,10 @@ const userSchema = new mongoose.Schema<IUser>({
         }
     ],
     requests: [
-        { type: String, required: false }
+        {
+            type: String,
+            required: false
+        }
     ]
 });
 

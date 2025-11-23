@@ -1,6 +1,4 @@
 import { Types } from "mongoose";
-import { IUser } from "../models/user";
-import { IMessage } from "../models/message";
 
 export interface MessageEntry {
     id?: string;
@@ -9,27 +7,32 @@ export interface MessageEntry {
     message: string;
     date: Date;
     saved: Boolean;
-    user: (Types.ObjectId | IUser);
+    user: Types.ObjectId;
 }
-
 export type NewMessageEntry = Omit<MessageEntry, "id">;
 
 export interface User {
     id?: string;
     username: string;
     passwordHash: string;
-    messages?: (Types.ObjectId | IMessage)[];
+    messages?: Types.ObjectId[];
     iconUrl?: string;
     bgColor?: string;
-    friends?: (Types.ObjectId | IUser)[];
+    friends?: Types.ObjectId[];
     requests?: string[];
 }
-
 export interface NewUser {
     username: string;
     password: string;
     iconUrl?: string;
     bgColor?: string;
-    friends?: (Types.ObjectId | IUser)[];
+    friends?: Types.ObjectId[];
     requests?: string[];
 }
+
+export interface FriendRequest {
+    id: string;
+    from: string;
+    to: string;
+}
+export type NewFriendRequest = Omit<FriendRequest, 'id'>;

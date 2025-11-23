@@ -1,4 +1,3 @@
-import { IUser } from "../models/user";
 import { NewMessageEntry, NewUser } from "./types";
 import { Request } from "express";
 import bcrypt from 'bcrypt';
@@ -16,7 +15,7 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
                 to: '', // FIX ME
                 message: parseMessage(object.message),
                 date: new Date(),
-                user: object.user as mongoose.Types.ObjectId | IUser,
+                user: object.user as mongoose.Types.ObjectId,
                 saved: parseSaved(object.saved),
             };
             return newMessage;
@@ -27,7 +26,7 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
                 to: '', // FIX ME
                 message: parseMessage(object.message),
                 date: new Date(),
-                user: object.user as mongoose.Types.ObjectId | IUser,
+                user: object.user as mongoose.Types.ObjectId,
                 saved: false
             };
             return newMessage;

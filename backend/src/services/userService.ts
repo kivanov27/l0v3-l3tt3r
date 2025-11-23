@@ -6,11 +6,7 @@ const getUsers = async () => {
 };
 
 const getUser = async (username: string) => {
-    return await UserModel.find({
-        where: {
-            username: username
-        }
-    });
+    return await UserModel.findOne({ username });
 };
 
 const createUser = async (entry: any) => {
@@ -29,8 +25,9 @@ const createUser = async (entry: any) => {
 };
 
 const updateUser = async (id: string, entry: any) => {
-    return await UserModel.findByIdAndUpdate(id, entry);
-}
+    const updatedUser = await UserModel.findByIdAndUpdate(id, entry);
+    return updatedUser;
+};
 
 const deleteUser = async (id: string) => {
     return await UserModel.findByIdAndDelete(id);

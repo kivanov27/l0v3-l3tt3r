@@ -1,11 +1,12 @@
 import express from "express";
-import { DB_URL } from "./utils/config";
 import mongoose from "mongoose";
+import { DB_URL } from "./utils/config";
 import cors from "cors";
 import logger from "./utils/logger";
 import messageRouter from "./routes/messages";
 import userRouter from "./routes/users";
 import loginRouter from "./routes/login";
+import friendRequestRouter from "./routes/friend-request";
 import { errorHandler } from "./utils/middleware";
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use("/api/messages", messageRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/friend-request", friendRequestRouter);
 
 app.use(errorHandler);
 
