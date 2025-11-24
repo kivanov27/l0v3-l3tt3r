@@ -19,7 +19,7 @@ const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
 };
 
 const getMessage = async (id: string): Promise<MessageEntry | null> => {
-    const message = await MessageModel.findOne({ id: id });
+    const message = await MessageModel.findById(id);
     return message;
 };
 

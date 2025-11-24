@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 export interface MessageEntry {
-    id: string;
+    id?: string;
     from: string;
     to: string;
     message: string;

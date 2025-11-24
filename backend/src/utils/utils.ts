@@ -124,12 +124,12 @@ const parseFriends = (friends: unknown): mongoose.Types.ObjectId[] => {
     });
 };
 
-const parseRequests = (requests: unknown): string[] => {
+const parseRequests = (requests: unknown): mongoose.Types.ObjectId[] => {
     if (!requests) return [];
     if (!Array.isArray(requests)) throw new Error("Requests must be an array");
     return requests.map(r => {
         if (!isString(r)) throw new Error("Request ID is invalid");
-        return r;
+        return new mongoose.Types.ObjectId(r);
     });
 };
 
