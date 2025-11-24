@@ -1,7 +1,7 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export interface MessageEntry {
-    id?: string;
+    id: string;
     from: string;
     to: string;
     message: string;
@@ -9,17 +9,17 @@ export interface MessageEntry {
     saved: Boolean;
     user: Types.ObjectId;
 }
-export type NewMessageEntry = Omit<MessageEntry, "id">;
+export type NewMessageEntry = Omit<MessageEntry, 'id'>;
 
 export interface User {
-    id?: string;
+    id: string;
     username: string;
     passwordHash: string;
     messages?: Types.ObjectId[];
     iconUrl?: string;
     bgColor?: string;
     friends?: Types.ObjectId[];
-    requests?: string[];
+    requests?: Types.ObjectId[];
 }
 export interface NewUser {
     username: string;
@@ -27,12 +27,12 @@ export interface NewUser {
     iconUrl?: string;
     bgColor?: string;
     friends?: Types.ObjectId[];
-    requests?: string[];
+    requests?: Types.ObjectId[];
 }
 
 export interface FriendRequest {
     id: string;
-    from: string;
-    to: string;
+    from: Types.ObjectId;
+    to: Types.ObjectId;
 }
 export type NewFriendRequest = Omit<FriendRequest, 'id'>;

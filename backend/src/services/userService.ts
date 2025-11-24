@@ -5,8 +5,8 @@ const getUsers = async () => {
     return await UserModel.find({});
 };
 
-const getUser = async (username: string) => {
-    return await UserModel.findOne({ username });
+const getUser = async (id: string) => {
+    return await UserModel.findById(id);
 };
 
 const createUser = async (entry: any) => {

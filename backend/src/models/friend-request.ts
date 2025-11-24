@@ -1,13 +1,21 @@
 import mongoose from "mongoose";
 
 export interface IFriendRequest extends mongoose.Document {
-    from: string;
-    to: string;
+    from: mongoose.Types.ObjectId;
+    to: mongoose.Types.ObjectId;
 }
 
 const friendRequestSchema = new mongoose.Schema<IFriendRequest>({
-    from: { type: String, required: true },
-    to: { type: String, required: true }
+    from: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true 
+    },
+    to: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true 
+    }
 });
 
 friendRequestSchema.set("toJSON", {

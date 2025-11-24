@@ -7,7 +7,7 @@ export interface IUser extends mongoose.Document {
     iconUrl?: string;
     bgColor?: string;
     friends?: mongoose.Types.ObjectId[];
-    requests?: string[];
+    requests?: mongoose.Types.ObjectId[];
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -31,7 +31,8 @@ const userSchema = new mongoose.Schema<IUser>({
     ],
     requests: [
         {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
             required: false
         }
     ]
