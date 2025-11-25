@@ -7,9 +7,25 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 const router = express.Router();
 
-router.get('/', asyncHandler(async (_req, res) => {
-    const messages = await messageService.getMessages();
-    res.json(messages);
+// router.get('/', asyncHandler(async (_req, res) => {
+//     const messages = await messageService.getMessages();
+//     res.json(messages);
+// }));
+
+router.get('/', asyncHandler(async (req, res) => {
+    const fromUserRaw = req.query.fromUser;
+    const toUserRaw = req.query.toUser;
+
+    if (!fromUserRaw || !toUserRaw) {
+        return res.status(400).json({ error: "Missing fromUserRaw or toUserRaw" });
+    }
+    else if (typeof fromUserRaw !== "string" || typeof toUserRaw !== "string") {
+        return res.status(400).json({ error: "fromUser and toUser must be strings" });
+    }
+    else {
+        const messages = await messageService.getMessages(fromUserRaw, toUserRaw);
+        res.json(messages);
+    }
 }));
 
 router.get("/:id", (req, res) => {
