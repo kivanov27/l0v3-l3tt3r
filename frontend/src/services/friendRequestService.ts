@@ -12,8 +12,8 @@ export const getFriendRequest = async (id: string) => {
     return response.data;
 };
 
-export const sendFriendRequest = async (fromId: string, toId: string) => {
-    const response = await axios.post(`${baseUrl}`, { fromId, toId });
+export const sendFriendRequest = async (from: string, to: string) => {
+    const response = await axios.post(`${baseUrl}`, { from, to });
     return response.data;
 };
 
