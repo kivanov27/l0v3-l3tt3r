@@ -14,31 +14,37 @@ interface FriendsProps {
 }
 
 const Friends = ({ user, setUser, logOut }: FriendsProps) => {
-    const [friends, setFriends] = useState<(User)[]>();
+    const [friends, setFriends] = useState<User[]>();
+    const [requests, setRequests] = useState<User[]>();
     const [formOpen, setFormOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchFriends = () => {
             setFriends(user.friends as User[]);
         }
+        const fetchRequests = () => {
+            setRequests(user.requests as User[]);
+        }
         fetchFriends();
-    }, [user.friends]);
+        fetchRequests();
+    }, [user.friends, user.requests]);
 
     const acceptRequest = async (userId: string) => {
         const newUser = {
             ...user,
-            friends: user.friends?.concat(userId),
-            requests: user.requests?.filter(r => r.toString() !== userId)
+            friends: user.friends?.map(f => f.id).concat(userId),
+            requests: user.requests?.map(r => r.id).filter(id => id !== userId)
         };
-        const updatedUser = await updateUser(newUser);
+        const updatedUser = await updateUser(user.id, newUser);
         setUser(updatedUser);
 
         const userFrom = await getUser(userId);
         const newUserFrom = {
             ...userFrom,
-            friends: userFrom.friends?.concat(updatedUser.id as string)
+            friends: userFrom.friends?.map(f => f.id).concat(updatedUser.id),
+            requests: userFrom.requests?.map(r => r.id)
         };
-        await updateUser(newUserFrom);
+        await updateUser(userId, newUserFrom);
     };
 
     const declineRequest = () => { };
@@ -64,13 +70,13 @@ const Friends = ({ user, setUser, logOut }: FriendsProps) => {
                             </div>
                         )}
                     </div>
-                    {user.requests?.length !== 0 &&
+                    {requests &&
                         <div className="requests">
                             <h3 className="requests-title">Friend requests</h3>
-                            {user.requests?.map(req =>
-                                <div className="request" key={req.toString()}>
-                                    <p>{req.toString()}</p>
-                                    <button onClick={() => acceptRequest(req.toString())}>accept</button>
+                            {requests.map(req =>
+                                <div className="request" key={req.id}>
+                                    <p>{req.username}</p>
+                                    <button onClick={() => acceptRequest(req.id)}>accept</button>
                                     <button onClick={declineRequest}>deny</button>
                                 </div>
                             )}

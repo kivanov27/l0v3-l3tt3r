@@ -16,8 +16,8 @@ export interface User {
     messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
-    friends?: (User | string)[];
-    requests?: (User | string)[];
+    friends?: User[];
+    requests?: User[];
 }
 
 export interface NewUser {
@@ -26,6 +26,17 @@ export interface NewUser {
     messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
-    friends?: (User | string)[];
-    requests?: (User | string)[];
+    friends?: string[];
+    requests?: string[];
+}
+
+export interface UpdateUser {
+    id: string;
+    username: string;
+    passwordHash: string;
+    messages?: (MessageEntry | string)[];
+    iconUrl?: string;
+    bgColor?: string;
+    friends?: string[];
+    requests?: string[];
 }
