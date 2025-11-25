@@ -6,7 +6,7 @@ const getUsers = async () => {
 };
 
 const getUser = async (id: string) => {
-    return await UserModel.findById(id);
+    return await UserModel.findById(id).populate('friends').populate('requests');
 };
 
 const createUser = async (entry: any) => {
