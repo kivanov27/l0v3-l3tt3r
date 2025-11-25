@@ -17,16 +17,15 @@ friendRequestRouter.get('/:id', asyncHandler(async (req,res) => {
 
 friendRequestRouter.post('/', asyncHandler(async (req, res) => {
     const { from, to } = req.body;
-    const fromUser = await UserModel.findById(from);
-    const toUser = await UserModel.findById(to);
+    const fromUser = await UserModel.findOne({ username: from });
+    const toUser = await UserModel.findOne({ username: to });
     if (!fromUser || !toUser) {
         return res.status(404).json({ error: 'One or both users not found' });
     }
-    const friendRequest = new FriendRequestModel({ from, to });
+    const friendRequest = new FriendRequestModel({ from: fromUser.id, to: toUser.id });
     const savedFriendRequest = await friendRequest.save();
 
-    // add request for user
-    await UserModel.findByIdAndUpdate(to, { $addToSet: { requests: from } });
+    await UserModel.findByIdAndUpdate(toUser.id, { $addToSet: { requests: fromUser.id } });
 
     res.status(201).json(savedFriendRequest);
 }));
