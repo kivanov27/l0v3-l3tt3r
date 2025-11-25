@@ -74,6 +74,7 @@ const LoginPage = ({ setUser, fetchMessages }: LoginPageProps) => {
                     login
                 </button>
                 <button 
+                    type="button"
                     className="credentials-button"
                     onClick={() => navigate('/register')}
                 >

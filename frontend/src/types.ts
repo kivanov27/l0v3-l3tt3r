@@ -10,18 +10,22 @@ export interface MessageEntry {
 export type NewMessageEntry = Omit<MessageEntry, "id">;
 
 export interface User {
+    id: string;
     username: string;
     passwordHash: string;
     messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
-    friends?: User[];
-    requests?: string[];
+    friends?: (User | string)[];
+    requests?: (User | string)[];
 }
 
 export interface NewUser {
     username: string;
     password: string;
+    messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
+    friends?: (User | string)[];
+    requests?: (User | string)[];
 }

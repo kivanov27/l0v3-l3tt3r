@@ -1,17 +1,18 @@
 import './App.css'
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import Chat from './components/Chat';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import Friends from './components/Friends';
-import type { User, MessageEntry, NewMessageEntry } from './types';
-import { getAllMessages, createMessage, setToken } from './services/messageService';
-import { useEffect, useState } from 'react';
+import type { User, MessageEntry } from './types';
+import { getAllMessages, setToken } from './services/messageService';
+import { getUser } from './services/userService';
 
 const App = () => {
+    const [user, setUser] = useState<User | null>(null);
     const [messages, setMessages] = useState<MessageEntry[]>([]);
     // const [newMessage, setNewMessage] = useState<string>('');
-    const [user, setUser] = useState<User | null>(null);
 
     const fetchMessages = async () => {
         const fetchedMessages = await getAllMessages();
@@ -22,15 +23,20 @@ const App = () => {
         setMessages(parsedMessages);
     };
 
+    const fetchUser = async (id: string) => {
+        const user = await getUser(id);
+        setUser(user);
+    };
+
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loveLetterUser');
         if (loggedUserJSON) {
-            const user = JSON.parse(loggedUserJSON);
-            setUser(user);
-            setToken(user.token);
+            const userToken = JSON.parse(loggedUserJSON);
+            setToken(userToken.token);
+            fetchUser(userToken.id);
             fetchMessages();
         }
-    }, [messages]);
+    }, []);
 
     // const addMessage = (event: React.SyntheticEvent) => {
     //     event.preventDefault();
@@ -54,7 +60,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={
-                    user ? <Friends user={user} logOut={logOut} />
+                    user ? <Friends user={user} setUser={setUser} logOut={logOut} />
                         : <LoginPage setUser={setUser} fetchMessages={fetchMessages} />
                 } />
                 {/* <Route path="/" element={ */}
