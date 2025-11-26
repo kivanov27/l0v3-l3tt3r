@@ -1,18 +1,18 @@
 import { NewMessageEntry, NewUser } from "./types";
-import { Request } from "express";
+import { Request } from 'express';
 import bcrypt from 'bcrypt';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const toNewMessage = (object: unknown): NewMessageEntry => {
-    if (!object || typeof object !== "object") {
-        throw new Error("Incorrect or missing data");
+    if (!object || typeof object !== 'object') {
+        throw new Error('Incorrect or missing data');
     }
 
-    if ("from" in object && "message" in object && "user" in object) {
+    if ('from' in object && 'to' in object && 'message' in object && 'user' in object) {
         if ("saved" in object) {
             const newMessage: NewMessageEntry = {
                 from: parseFrom(object.from),
-                to: '', // FIX ME
+                to: parseTo(object.to),
                 message: parseMessage(object.message),
                 date: new Date(),
                 user: object.user as mongoose.Types.ObjectId,
@@ -23,7 +23,7 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
         else {
             const newMessage: NewMessageEntry = {
                 from: parseFrom(object.from),
-                to: '', // FIX ME
+                to: parseTo(object.to),
                 message: parseMessage(object.message),
                 date: new Date(),
                 user: object.user as mongoose.Types.ObjectId,
@@ -33,37 +33,37 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
         }
     }
     else {
-        throw new Error("Incorrect data, some fields are missing");
+        throw new Error('Incorrect data, some fields are missing');
     }
 };
 
 export const toNewUser = (object: unknown): NewUser => {
-    if (!object || typeof(object) !== "object") {
-        throw new Error("Incorrect or missing data");
+    if (!object || typeof(object) !== 'object') {
+        throw new Error('Incorrect or missing data');
     }
 
-    if ("username" in object && "password" in object) {
+    if ('username' in object && 'password' in object) {
         const newUser: NewUser = {
             username: parseUsername(object.username),
             password: parsePassword(object.password),
         }
-        if ("iconUrl" in object) newUser.iconUrl = parseIconUrl(object.iconUrl);
-        if ("bgColor" in object) newUser.bgColor = parseBgColor(object.bgColor);
-        if ("friends" in object) newUser.friends = parseFriends(object.friends);
-        if ("requests" in object) newUser.requests = parseRequests(object.requests);
+        if ('iconUrl' in object) newUser.iconUrl = parseIconUrl(object.iconUrl);
+        if ('bgColor' in object) newUser.bgColor = parseBgColor(object.bgColor);
+        if ('friends' in object) newUser.friends = parseFriends(object.friends);
+        if ('requests' in object) newUser.requests = parseRequests(object.requests);
         return newUser;
     }
     else {
-        throw new Error("Incorrect data, some fields are missing");
+        throw new Error('Incorrect data, some fields are missing');
     }
 };
 
 const isString = (text: unknown): text is string => {
-    return typeof text === "string" || text instanceof String;
+    return typeof text === 'string' || text instanceof String;
 };
 
 const isBoolean = (variable: unknown): variable is boolean => {
-    return typeof variable === "boolean" || variable instanceof Boolean;
+    return typeof variable === 'boolean' || variable instanceof Boolean;
 };
 
 const parseFrom = (from: unknown): string => {
@@ -71,6 +71,13 @@ const parseFrom = (from: unknown): string => {
         throw new Error("Incorrect or missing 'from' field");
     }
     return from;
+};
+
+const parseTo = (to: unknown): string => {
+    if (!isString(to)) {
+        throw new Error("Incorrect or missing 'to' field");
+    }
+    return to;
 };
 
 const parseMessage = (message: unknown): string => {
@@ -117,18 +124,18 @@ const parseBgColor = (bgColor: unknown): string => {
 
 const parseFriends = (friends: unknown): mongoose.Types.ObjectId[] => {
     if (!friends) return [];
-    if (!Array.isArray(friends)) throw new Error("Friends must be an array");
+    if (!Array.isArray(friends)) throw new Error('Friends must be an array');
     return friends.map(f => {
-        if (!isString(f)) throw new Error("Friend ID is invalid");
+        if (!isString(f)) throw new Error('Friend ID is invalid');
         return new mongoose.Types.ObjectId(f);
     });
 };
 
 const parseRequests = (requests: unknown): mongoose.Types.ObjectId[] => {
     if (!requests) return [];
-    if (!Array.isArray(requests)) throw new Error("Requests must be an array");
+    if (!Array.isArray(requests)) throw new Error('Requests must be an array');
     return requests.map(r => {
-        if (!isString(r)) throw new Error("Request ID is invalid");
+        if (!isString(r)) throw new Error('Request ID is invalid');
         return new mongoose.Types.ObjectId(r);
     });
 };

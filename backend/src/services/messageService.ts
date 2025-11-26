@@ -1,10 +1,6 @@
 import MessageModel from "../models/message";
 import { MessageEntry, NewMessageEntry } from "../utils/types";
 
-// const getMessages = async () => {
-//     return await MessageModel.find({}).populate('user');
-// };
-
 const getMessages = async (fromUser: string, toUser: string) => {
     return await MessageModel.find({
         $or: [

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUser, updateUser } from "../services/userService";
 import type { User } from "../types";
 import FriendForm from "./FriendForm";
@@ -16,22 +16,8 @@ interface FriendsProps {
 }
 
 const Friends = ({ user, setUser, setRecipient, logOut }: FriendsProps) => {
-    const [friends, setFriends] = useState<User[]>();
-    const [requests, setRequests] = useState<User[]>();
     const [formOpen, setFormOpen] = useState<boolean>(false);
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchFriends = () => {
-            setFriends(user.friends as User[]);
-        }
-        const fetchRequests = () => {
-            setRequests(user.requests as User[]);
-        }
-        fetchFriends();
-        fetchRequests();
-    }, [user.friends, user.requests]);
 
     const acceptRequest = async (userId: string) => {
         const newUser = {
@@ -78,9 +64,9 @@ const Friends = ({ user, setUser, setRecipient, logOut }: FriendsProps) => {
                     <img src={logoutIcon} className="clickable" onClick={logOut} />
                 </div>
                 <div className="friends-container">
-                    <h1>Friends</h1>
+                    <h1>chat rooms</h1>
                     <div className="friends">
-                        {friends && friends.map(friend =>
+                        {user.friends && user.friends.map(friend =>
                             <div key={friend.username} className="friend">
                                 <div 
                                     className="friend-img-container"
@@ -93,26 +79,31 @@ const Friends = ({ user, setUser, setRecipient, logOut }: FriendsProps) => {
                             </div>
                         )}
                     </div>
-                    <div className="requests">
-                        <h3 className="requests-title">Friend requests</h3>
-                        {requests && requests.map(req =>
-                            <div className="request" key={req.id}>
-                                <p>{req.username}</p>
-                                <button onClick={() => acceptRequest(req.id)}>
-                                    accept
-                                </button>
-                                <button onClick={() => declineRequest(req.id)}>
-                                    deny
-                                </button>
-                            </div>
-                        )}
-                    </div>
+
                     <button
                         className="add-friend-button clickable"
                         onClick={() => setFormOpen(true)}
                     >
                         +
                     </button>
+
+                    {user.requests && user.requests.length > 0 &&
+                        <div className="requests">
+                            <h3 className="requests-title">friend requests:</h3>
+                            {user.requests.map(req =>
+                                <div className="request" key={req.id}>
+                                    <p>{req.username}</p>
+                                    <button onClick={() => acceptRequest(req.id)}>
+                                        accept
+                                    </button>
+                                    <button onClick={() => declineRequest(req.id)}>
+                                        deny
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    }
+
                     <FriendForm user={user} isOpen={formOpen} setIsOpen={setFormOpen} />
                 </div>
             </div>

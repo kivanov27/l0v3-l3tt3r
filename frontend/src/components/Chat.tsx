@@ -6,6 +6,7 @@ import letterIcon from "../assets/letter.png";
 import type { MessageEntry, NewMessageEntry, User } from "../types";
 import { useEffect, useState } from "react";
 import { createMessage, getAllMessages } from "../services/messageService";
+import { useNavigate } from "react-router-dom";
 
 interface ChatProps {
     user: User; 
@@ -17,6 +18,7 @@ const Chat = ({ user, recipient, logOut }: ChatProps) => {
     const [dates, setDates] = useState<string[]>();
     const [messages, setMessages] = useState<MessageEntry[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -49,15 +51,20 @@ const Chat = ({ user, recipient, logOut }: ChatProps) => {
 
     const addMessage = (event: React.SyntheticEvent) => { 
         event.preventDefault();
+
         if (user && recipient) {
             const msgToAdd: NewMessageEntry = { from: user.username, to: recipient.username, message: newMessage };
             setNewMessage("");
             createMessage(msgToAdd);
-            // fetchMessages();
         }
         else {
             console.error("No user or recipient.");
         }
+    };
+
+    const logout = () => {
+        logOut();
+        navigate('/');
     };
 
     return (
@@ -67,7 +74,7 @@ const Chat = ({ user, recipient, logOut }: ChatProps) => {
                     <img src={homeIcon} className="clickable" />
                     <img src={savedIcon} className="clickable" />
                     <img src={settingsIcon} className="clickable" />
-                    <img src={logoutIcon} className="clickable" onClick={logOut} />
+                    <img src={logoutIcon} className="clickable" onClick={logout} />
                 </div>
                 <div className="chat-container">
                     <div className="chat">
