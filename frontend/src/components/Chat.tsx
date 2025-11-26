@@ -3,6 +3,7 @@ import type { MessageEntry, NewMessageEntry, User } from "../types";
 import { useEffect, useState } from "react";
 import { createMessage, getAllMessages } from "../services/messageService";
 import SideMenu from "./SideMenu";
+import { updateUser } from "../services/userService";
 
 interface ChatProps {
     user: User; 
@@ -48,9 +49,19 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
         event.preventDefault();
 
         if (user && recipient) {
-            const msgToAdd: NewMessageEntry = { from: user.username, to: recipient.username, message: newMessage };
+            const msgToAdd: NewMessageEntry = { 
+                from: user.username, 
+                to: recipient.username, 
+                message: newMessage 
+            };
             setNewMessage("");
             createMessage(msgToAdd);
+            updateUser(user.id, {
+                ...user,
+                friends: user.friends?.map(f => f.id),
+                requests: user.requests?.map(r => r.id),
+                lastSentAt: new Date()
+            });
         }
         else {
             console.error("No user or recipient.");

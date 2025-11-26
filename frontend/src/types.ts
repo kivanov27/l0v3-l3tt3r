@@ -17,6 +17,7 @@ export interface User {
     bgColor?: string;
     friends?: User[];
     requests?: User[];
+    lastSentAt?: string | Date;
 }
 
 export interface NewUser {
@@ -24,8 +25,6 @@ export interface NewUser {
     password: string;
     iconUrl?: string;
     bgColor?: string;
-    friends?: string[];
-    requests?: string[];
 }
 
 export interface UpdateUser {
@@ -36,4 +35,5 @@ export interface UpdateUser {
     bgColor?: string;
     friends?: string[];
     requests?: string[];
+    lastSentAt?: string | Date;
 }
