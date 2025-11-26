@@ -32,8 +32,6 @@ const Friends = ({ user, setUser, setRecipient }: FriendsProps) => {
             requests: userFrom.requests?.map(r => r.id)
         };
         await updateUser(userId, newUserFrom);
-        
-        // setRequests(requests?.filter(r => r.id !== userId));
     };
 
     const declineRequest = async (userId: string) => {

@@ -15,7 +15,6 @@ export interface User {
     id: string;
     username: string;
     passwordHash: string;
-    messages?: Types.ObjectId[];
     iconUrl?: string;
     bgColor?: string;
     friends?: Types.ObjectId[];

@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 export interface IUser extends mongoose.Document {
     username: string;
     passwordHash: string;
-    messages?: mongoose.Types.ObjectId[];
     iconUrl?: string;
     bgColor?: string;
     friends?: mongoose.Types.ObjectId[];
@@ -13,13 +12,6 @@ export interface IUser extends mongoose.Document {
 const userSchema = new mongoose.Schema<IUser>({
     username: { type: String, required: true },
     passwordHash: { type: String, required: true },
-    messages: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Message',
-            required: false
-        }
-    ],
     iconUrl: { type: String, required: false },
     bgColor: { type: String, required: false },
     friends: [

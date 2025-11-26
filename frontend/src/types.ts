@@ -13,7 +13,6 @@ export interface User {
     id: string;
     username: string;
     passwordHash: string;
-    messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
     friends?: User[];
@@ -23,7 +22,6 @@ export interface User {
 export interface NewUser {
     username: string;
     password: string;
-    messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
     friends?: string[];
@@ -34,7 +32,6 @@ export interface UpdateUser {
     id: string;
     username: string;
     passwordHash: string;
-    messages?: (MessageEntry | string)[];
     iconUrl?: string;
     bgColor?: string;
     friends?: string[];
