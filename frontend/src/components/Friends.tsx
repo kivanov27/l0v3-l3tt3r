@@ -2,10 +2,7 @@ import { useState } from "react";
 import { getUser, updateUser } from "../services/userService";
 import type { User } from "../types";
 import FriendForm from "./FriendForm";
-import homeIcon from "../assets/home.png";
-import savedIcon from "../assets/saved.png";
-import settingsIcon from "../assets/settings.png";
-import logoutIcon from "../assets/logout.png";
+import SideMenu from "./SideMenu";
 import { useNavigate } from "react-router-dom";
 
 interface FriendsProps {
@@ -15,7 +12,7 @@ interface FriendsProps {
     logOut: () => void;
 }
 
-const Friends = ({ user, setUser, setRecipient, logOut }: FriendsProps) => {
+const Friends = ({ user, setUser, setRecipient }: FriendsProps) => {
     const [formOpen, setFormOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -57,12 +54,7 @@ const Friends = ({ user, setUser, setRecipient, logOut }: FriendsProps) => {
     return (
         <div className="container">
             <div className="box">
-                <div className="widget-container">
-                    <img src={homeIcon} className="clickable" />
-                    <img src={savedIcon} className="clickable" />
-                    <img src={settingsIcon} className="clickable" />
-                    <img src={logoutIcon} className="clickable" onClick={logOut} />
-                </div>
+                <SideMenu setUser={setUser} />
                 <div className="friends-container">
                     <h1>chat rooms</h1>
                     <div className="friends">

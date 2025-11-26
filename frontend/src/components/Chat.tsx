@@ -1,24 +1,19 @@
-import homeIcon from "../assets/home.png";
-import savedIcon from "../assets/saved.png";
-import settingsIcon from "../assets/settings.png";
-import logoutIcon from "../assets/logout.png";
 import letterIcon from "../assets/letter.png";
 import type { MessageEntry, NewMessageEntry, User } from "../types";
 import { useEffect, useState } from "react";
 import { createMessage, getAllMessages } from "../services/messageService";
-import { useNavigate } from "react-router-dom";
+import SideMenu from "./SideMenu";
 
 interface ChatProps {
     user: User; 
     recipient: User;
-    logOut: () => void;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const Chat = ({ user, recipient, logOut }: ChatProps) => {
+const Chat = ({ user, recipient, setUser }: ChatProps) => {
     const [dates, setDates] = useState<string[]>();
     const [messages, setMessages] = useState<MessageEntry[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -62,20 +57,10 @@ const Chat = ({ user, recipient, logOut }: ChatProps) => {
         }
     };
 
-    const logout = () => {
-        logOut();
-        navigate('/');
-    };
-
     return (
         <div className="container">
             <div className="box">
-                <div className="widget-container">
-                    <img src={homeIcon} className="clickable" />
-                    <img src={savedIcon} className="clickable" />
-                    <img src={settingsIcon} className="clickable" />
-                    <img src={logoutIcon} className="clickable" onClick={logout} />
-                </div>
+                <SideMenu setUser={setUser} />
                 <div className="chat-container">
                     <div className="chat">
                         {dates?.map(d =>

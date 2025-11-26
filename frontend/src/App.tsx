@@ -18,7 +18,6 @@ const App = () => {
         const fetchUser = async (id: string) => {
             const user = await getUser(id);
             setUser(user);
-            console.log(user);
         };
 
         const loggedUserJSON = window.localStorage.getItem('loveLetterUser');
@@ -53,7 +52,7 @@ const App = () => {
                         <Chat 
                             user={user} 
                             recipient={recipient} 
-                            logOut={logOut}
+                            setUser={setUser}
                         /> 
                     } />
                 }
