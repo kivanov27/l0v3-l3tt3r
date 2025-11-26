@@ -19,14 +19,13 @@ export interface User {
     bgColor?: string;
     friends?: Types.ObjectId[];
     requests?: Types.ObjectId[];
+    lastSentAt?: Date;
 }
 export interface NewUser {
     username: string;
     password: string;
     iconUrl?: string;
     bgColor?: string;
-    friends?: Types.ObjectId[];
-    requests?: Types.ObjectId[];
 }
 
 export interface FriendRequest {

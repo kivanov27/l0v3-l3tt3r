@@ -7,6 +7,7 @@ export interface IUser extends mongoose.Document {
     bgColor?: string;
     friends?: mongoose.Types.ObjectId[];
     requests?: mongoose.Types.ObjectId[];
+    lastSentAt?: Date;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -27,7 +28,8 @@ const userSchema = new mongoose.Schema<IUser>({
             ref: 'User',
             required: false
         }
-    ]
+    ],
+    lastSentAt: { type: Date, default: null }
 });
 
 userSchema.set("toJSON", {

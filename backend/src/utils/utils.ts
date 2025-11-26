@@ -49,8 +49,6 @@ export const toNewUser = (object: unknown): NewUser => {
         }
         if ('iconUrl' in object) newUser.iconUrl = parseIconUrl(object.iconUrl);
         if ('bgColor' in object) newUser.bgColor = parseBgColor(object.bgColor);
-        if ('friends' in object) newUser.friends = parseFriends(object.friends);
-        if ('requests' in object) newUser.requests = parseRequests(object.requests);
         return newUser;
     }
     else {
@@ -122,23 +120,23 @@ const parseBgColor = (bgColor: unknown): string => {
     return bgColor;
 };
 
-const parseFriends = (friends: unknown): mongoose.Types.ObjectId[] => {
-    if (!friends) return [];
-    if (!Array.isArray(friends)) throw new Error('Friends must be an array');
-    return friends.map(f => {
-        if (!isString(f)) throw new Error('Friend ID is invalid');
-        return new mongoose.Types.ObjectId(f);
-    });
-};
+// const parseFriends = (friends: unknown): mongoose.Types.ObjectId[] => {
+//     if (!friends) return [];
+//     if (!Array.isArray(friends)) throw new Error('Friends must be an array');
+//     return friends.map(f => {
+//         if (!isString(f)) throw new Error('Friend ID is invalid');
+//         return new mongoose.Types.ObjectId(f);
+//     });
+// };
 
-const parseRequests = (requests: unknown): mongoose.Types.ObjectId[] => {
-    if (!requests) return [];
-    if (!Array.isArray(requests)) throw new Error('Requests must be an array');
-    return requests.map(r => {
-        if (!isString(r)) throw new Error('Request ID is invalid');
-        return new mongoose.Types.ObjectId(r);
-    });
-};
+// const parseRequests = (requests: unknown): mongoose.Types.ObjectId[] => {
+//     if (!requests) return [];
+//     if (!Array.isArray(requests)) throw new Error('Requests must be an array');
+//     return requests.map(r => {
+//         if (!isString(r)) throw new Error('Request ID is invalid');
+//         return new mongoose.Types.ObjectId(r);
+//     });
+// };
 
 export const encryptPassword = async (password: string) => {
     const saltRounds = 10;
