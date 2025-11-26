@@ -15,12 +15,12 @@ const App = () => {
     const [messages, setMessages] = useState<MessageEntry[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
 
-    const fetchUser = async (id: string) => {
-        const user = await getUser(id);
-        setUser(user);
-    };
-
     useEffect(() => {
+        const fetchUser = async (id: string) => {
+            const user = await getUser(id);
+            setUser(user);
+        };
+
         const fetchMessages = async () => {
             if (user && recipient) {
                 const fetchedMessages = await getAllMessages(user.username, recipient.username);
