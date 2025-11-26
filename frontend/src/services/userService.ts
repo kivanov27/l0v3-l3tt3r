@@ -10,7 +10,11 @@ export const getUser = async (id: string) => {
 
 export const createUser = async (object: NewUser) => {
     const response = await axios.post<User>(baseUrl, object);
-    return response.data;
+    const user = response.data;
+    return {
+        ...user,
+        lastSentMessageAt: user.lastSentAt ? new Date(user.lastSentAt) : undefined
+    };
 };
 
 export const updateUser = async (id: string, user: UpdateUser) => {

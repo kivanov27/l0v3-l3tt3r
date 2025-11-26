@@ -68,6 +68,15 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
         }
     };
 
+    const sameDay = (d1: Date, d2: Date) => {
+        if (!d1) return false
+        return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
+    }
+
+    const isLocked = () => {
+        return sameDay(user.lastSentAt as Date, new Date());
+    };
+
     return (
         <div className="container">
             <div className="box">
@@ -134,21 +143,27 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                             </div>
                         )}
                     </div>
-                    <div className="chatbox">
-                        <textarea 
-                            id="chatbox"
-                            className="chatbox-text" 
-                            value={newMessage}
-                            placeholder="type your message here..." 
-                            onChange={({ target }) => setNewMessage(target.value)}
-                        />
-                        <div 
-                            className="chatbox-btn"
-                            onClick={addMessage}
-                        >
-                            <img src={letterIcon} draggable="false" />
+                    {isLocked() ?
+                        <div className="locked-chatbox">
+                            am loked
                         </div>
-                    </div>
+                        :
+                        <div className="chatbox">
+                            <textarea 
+                                id="chatbox"
+                                className="chatbox-text" 
+                                value={newMessage}
+                                placeholder="type your message here..." 
+                                onChange={({ target }) => setNewMessage(target.value)}
+                            />
+                            <div 
+                                className="chatbox-btn"
+                                onClick={addMessage}
+                            >
+                                <img src={letterIcon} draggable="false" />
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
