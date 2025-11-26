@@ -8,8 +8,10 @@ export const setToken = (newToken: string) => {
     token = `Bearer ${newToken}`;
 };
 
-export const getAllMessages = async () => {
-    const response = await axios.get<MessageEntry[]>(baseUrl);
+export const getAllMessages = async (fromUser: string, toUser: string) => {
+    const headers = { 'Authorization': token };
+    const params = { fromUser, toUser };
+    const response = await axios.get<MessageEntry[]>(baseUrl, { headers, params });
     return response.data;
 };
 

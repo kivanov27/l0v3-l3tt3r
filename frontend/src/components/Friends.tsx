@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
+import { getUser, updateUser } from "../services/userService";
 import type { User } from "../types";
 import FriendForm from "./FriendForm";
 import homeIcon from "../assets/home.png";
 import savedIcon from "../assets/saved.png";
 import settingsIcon from "../assets/settings.png";
 import logoutIcon from "../assets/logout.png";
-import { getUser, updateUser } from "../services/userService";
+import { useNavigate } from "react-router-dom";
 
 interface FriendsProps {
     user: User;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    setRecipient: React.Dispatch<React.SetStateAction<User | null>>;
     logOut: () => void;
 }
 
-const Friends = ({ user, setUser, logOut }: FriendsProps) => {
+const Friends = ({ user, setUser, setRecipient, logOut }: FriendsProps) => {
     const [friends, setFriends] = useState<User[]>();
     const [requests, setRequests] = useState<User[]>();
     const [formOpen, setFormOpen] = useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFriends = () => {
@@ -45,9 +49,24 @@ const Friends = ({ user, setUser, logOut }: FriendsProps) => {
             requests: userFrom.requests?.map(r => r.id)
         };
         await updateUser(userId, newUserFrom);
+        
+        // setRequests(requests?.filter(r => r.id !== userId));
     };
 
-    const declineRequest = () => { };
+    const declineRequest = async (userId: string) => {
+        const newUser = {
+            ...user,
+            friends: user.friends?.map(f => f.id),
+            requests: user.requests?.map(r => r.id).filter(id => id !== userId)
+        };
+        const updatedUser = await updateUser(user.id, newUser);
+        setUser(updatedUser);
+    };
+
+    const openChat = (friend: User) => {
+        setRecipient(friend);
+        navigate('/chat');
+    };
 
     return (
         <div className="container">
@@ -63,25 +82,31 @@ const Friends = ({ user, setUser, logOut }: FriendsProps) => {
                     <div className="friends">
                         {friends && friends.map(friend =>
                             <div key={friend.username} className="friend">
-                                <div className="friend-img-container">
+                                <div 
+                                    className="friend-img-container"
+                                    style={{ backgroundColor: friend.bgColor }}
+                                    onClick={() => openChat(friend)}
+                                >
                                     {friend.iconUrl && <img src={friend.iconUrl} />}
                                 </div>
-                                <p>{friend.username}</p>
+                                <p className="friend-name">{friend.username}</p>
                             </div>
                         )}
                     </div>
-                    {requests &&
-                        <div className="requests">
-                            <h3 className="requests-title">Friend requests</h3>
-                            {requests.map(req =>
-                                <div className="request" key={req.id}>
-                                    <p>{req.username}</p>
-                                    <button onClick={() => acceptRequest(req.id)}>accept</button>
-                                    <button onClick={declineRequest}>deny</button>
-                                </div>
-                            )}
-                        </div>
-                    }
+                    <div className="requests">
+                        <h3 className="requests-title">Friend requests</h3>
+                        {requests && requests.map(req =>
+                            <div className="request" key={req.id}>
+                                <p>{req.username}</p>
+                                <button onClick={() => acceptRequest(req.id)}>
+                                    accept
+                                </button>
+                                <button onClick={() => declineRequest(req.id)}>
+                                    deny
+                                </button>
+                            </div>
+                        )}
+                    </div>
                     <button
                         className="add-friend-button clickable"
                         onClick={() => setFormOpen(true)}

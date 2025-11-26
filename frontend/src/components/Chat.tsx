@@ -1,14 +1,14 @@
 import homeIcon from "../assets/home.png";
 import savedIcon from "../assets/saved.png";
 import settingsIcon from "../assets/settings.png";
-import bearIcon from "../assets/bear.png";
-import chickenIcon from "../assets/chicken.png";
+import logoutIcon from "../assets/logout.png";
 import letterIcon from "../assets/letter.png";
 import type { MessageEntry, User } from "../types";
 import { useEffect, useState } from "react";
 
 interface ChatProps {
     user: User; 
+    recipient: User;
     messages: MessageEntry[];
     newMessage: string;
     setNewMessage: React.Dispatch<React.SetStateAction<string>>;
@@ -16,7 +16,7 @@ interface ChatProps {
     logOut: () => void;
 }
 
-const Chat = ({ user, messages, newMessage, setNewMessage, addMessage }: ChatProps) => {
+const Chat = ({ user, recipient, messages, newMessage, setNewMessage, addMessage, logOut }: ChatProps) => {
     const [dates, setDates] = useState<string[]>();
 
     useEffect(() => {
@@ -36,9 +36,10 @@ const Chat = ({ user, messages, newMessage, setNewMessage, addMessage }: ChatPro
         <div className="container">
             <div className="box">
                 <div className="widget-container">
-                    <img src={homeIcon} />
-                    <img src={savedIcon} />
-                    <img src={settingsIcon} />
+                    <img src={homeIcon} className="clickable" />
+                    <img src={savedIcon} className="clickable" />
+                    <img src={settingsIcon} className="clickable" />
+                    <img src={logoutIcon} className="clickable" onClick={logOut} />
                 </div>
                 <div className="chat-container">
                     <div className="chat">
@@ -70,16 +71,20 @@ const Chat = ({ user, messages, newMessage, setNewMessage, addMessage }: ChatPro
                                                         {m.message}
                                                     </span>
                                                     <div className="msg-pic-container bear-bg">
-                                                        <img src={bearIcon} />
+                                                        {user.iconUrl &&
+                                                            <img src={user.iconUrl} />
+                                                        }
                                                     </div>
                                                 </div>
                                             )
                                         }
-                                        else {
+                                        else if (m.from === recipient.username) {
                                             return (
                                                 <div className="msg msg-other" key={m.id}>
                                                     <div className="msg-pic-container chicken-bg">
-                                                        <img src={chickenIcon} />
+                                                        {recipient.iconUrl &&
+                                                            <img src={recipient.iconUrl} />
+                                                        }
                                                     </div>
                                                     <span className="msg-message msg-message-other">
                                                         {m.message}

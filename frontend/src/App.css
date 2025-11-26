@@ -85,6 +85,21 @@
     row-gap: 2rem;
 }
 
+.friend-img-container {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #5E483C;
+    border-radius: 50%;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+.friend-img-container:active {
+    scale: 0.9;
+}
+.friend-name {
+    text-align: center;
+}
+
 .requests-title {
     text-align: center;
 }
