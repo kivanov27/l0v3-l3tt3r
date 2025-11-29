@@ -16,24 +16,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #242424;
+    background-color: #E9DAC5;
+    color: #5E483C;
 }
 
 .credentials-form {
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
-    color: white;
 }
 
 .credentials-group {
     display: flex;
     flex-direction: column;
-    row-gap: 0.5rem;
+    align-items: center;
 }
 
 .credentials-button {
-    color: white;
+    background-color: #E6D1B8;
+    border: 1px solid #5E483C;
+    border-radius: 10px;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
+}
+.credentials-button:active {
+    transform: scale(0.9);
 }
 
 /* Friends */
