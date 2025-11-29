@@ -37,6 +37,7 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
         fetchMessages();
     }, [user, recipient]);
 
+    // Get unique dates to generate messages for each date
     useEffect(() => {
         const uniqueDates = [... new Set(
             messages
@@ -49,9 +50,9 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
         )];
 
         setDates(uniqueDates);
-        checkLocked();
     }, [messages]);
 
+    // Scroll chat to bottom
     useEffect(() => {
         if (chatRef.current) {
             chatRef.current.scrollTo({
@@ -60,6 +61,17 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
             });
         }
     }, [messages]);
+
+    // Check if chat box should be locked
+    useEffect(() => {
+        if (!user?.lastSentAt) {
+            setLocked(false);
+            return;
+        }
+
+        const last = new Date(user.lastSentAt);
+        setLocked(sameDay(last, new Date()));
+    }, [user]);
 
     const addMessage = async (event: React.SyntheticEvent) => { 
         event.preventDefault();
@@ -82,7 +94,6 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
             });
             setUser(updated);
             setNewMessage("");
-            checkLocked();
         }
         else {
             console.error("No user or recipient.");
@@ -94,16 +105,6 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
         return a.getFullYear() === b.getFullYear() && 
             a.getMonth() === b.getMonth() && 
             a.getDate() === b.getDate();
-    };
-
-    const checkLocked = () => {
-        if (!user?.lastSentAt) {
-            setLocked(false);
-            return;
-        }
-
-        const last = new Date(user.lastSentAt);
-        setLocked(sameDay(last, new Date()));
     };
 
     return (
@@ -139,7 +140,10 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                                                     <span className="msg-message msg-message-mine">
                                                         {m.message}
                                                     </span>
-                                                    <div className="msg-pic-container bear-bg">
+                                                    <div 
+                                                        className="msg-pic-container"
+                                                        style={{ backgroundColor: user.bgColor }}
+                                                    >
                                                         {user.iconUrl &&
                                                             <img src={user.iconUrl} />
                                                         }
@@ -150,7 +154,10 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                                         else if (m.from === recipient.username) {
                                             return (
                                                 <div className="msg msg-other" key={m.id}>
-                                                    <div className="msg-pic-container chicken-bg">
+                                                    <div 
+                                                        className="msg-pic-container"
+                                                        style={{ backgroundColor: recipient.bgColor }}
+                                                    >
                                                         {recipient.iconUrl &&
                                                             <img src={recipient.iconUrl} />
                                                         }
@@ -184,6 +191,12 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                                 value={newMessage}
                                 placeholder="type your message here..." 
                                 onChange={({ target }) => setNewMessage(target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault();
+                                        addMessage(e);
+                                    }
+                                }}
                             />
                             <div 
                                 className="chatbox-btn"

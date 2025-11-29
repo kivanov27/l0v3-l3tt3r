@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import Friends from './components/Friends';
 import Chat from './components/Chat';
+import Settings from './components/Settings';
 import type { User } from './types';
 import { setToken } from './services/messageService';
 import { getUser } from './services/userService';
@@ -54,6 +55,14 @@ const App = () => {
                             recipient={recipient} 
                             setUser={setUser}
                         /> 
+                    } />
+                }
+                {user &&
+                    <Route path='/settings' element={
+                        <Settings
+                            user={user}
+                            setUser={setUser}
+                        />
                     } />
                 }
             </Routes>

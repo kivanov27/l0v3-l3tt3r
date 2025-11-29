@@ -5,8 +5,8 @@
     font-weight: 400;
     font-style: normal;
     margin: 0 auto;
-    --vigzi: #b56998;
-    --kris: #697fb5;
+    /* --vigzi: #b56998; */
+    /* --kris: #697fb5; */
 }
 
 /* Login and Registration Forms */
@@ -36,40 +36,6 @@
     color: white;
 }
 
-/* charPick */
-/* .home-container { */
-/*     width: 100vw; */
-/*     height: 100vh; */
-/*     display: flex; */
-/*     justify-content: center; */
-/*     align-items: center; */
-/*     background-color: #242424; */
-/* } */
-/**/
-/* .charPick-container { */
-/*     display: flex; */
-/*     column-gap: 40px; */
-/* } */
-/**/
-/* .charPick { */
-/*     padding: 40px; */
-/*     border-radius: 40px; */
-/*     color: black; */
-/*     font-size: 40px; */
-/* } */
-/**/
-/* .vigzi { */
-/*     background-color: var(--vigzi); */
-/* } */
-/**/
-/* .vigzi-hover:hover { */
-/*     color: #ecf754; */
-/* } */
-/**/
-/* .kris { */
-/*     background-color: var(--kris); */
-/* } */
-
 /* Friends */
 
 .friends-container {
@@ -92,9 +58,10 @@
     border-radius: 50%;
     padding: 0.5rem;
     cursor: pointer;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
 }
 .friend-img-container:active {
-    scale: 0.9;
+    transform: scale(0.9);
 }
 .friend-name {
     text-align: center;
@@ -148,9 +115,10 @@
 .friend-form button {
     background-color: #E6D1B8;
     border: 1px solid black;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
 }
 .friend-form button:active {
-    scale: 0.9;
+    transform: scale(0.9);
 }
 
 /* Chat */
@@ -253,12 +221,6 @@
     border-radius: 50%;
     padding: 0.5rem;
 }
-.bear-bg {
-    background-color: #BECDF2;
-}
-.chicken-bg {
-    background-color: #F2BEBE;
-}
 
 .msg-message {
     border: 1px solid #5E483C;
@@ -292,7 +254,7 @@
     height: 9%;
     border: 2px solid #5E483C;
     border-radius: 20px;
-    background-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.5);
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -317,21 +279,38 @@
 .chatbox-btn {
     width: 7%;
     cursor: pointer;
-    transition: all;
-    transition-duration: 300ms;
     user-select: none; 
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
 }
 .chatbox-btn:active {
-    scale: 0.9;
+    transform: scale(0.9);
+}
+
+/* Settings */
+
+.settings-container button {
+    background-color: #E6D1B8;
+    border-radius: 10px;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
+}
+.settings-container button:active {
+    transform: scale(0.9);
+}
+
+.settings-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Util classes */
 
 .clickable {
     cursor: pointer;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
 }
 .clickable:active {
-    scale: 0.9;
+    transform: scale(0.9);
 }
 
 .visible {
