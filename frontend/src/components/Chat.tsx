@@ -1,6 +1,7 @@
 import letterIcon from "../assets/letter.png";
+import lockIcon from "../assets/lock.png";
 import type { MessageEntry, NewMessageEntry, User } from "../types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createMessage, getAllMessages } from "../services/messageService";
 import SideMenu from "./SideMenu";
 import { updateUser } from "../services/userService";
@@ -15,6 +16,8 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
     const [dates, setDates] = useState<string[]>();
     const [messages, setMessages] = useState<MessageEntry[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
+    const [locked, setLocked] = useState<boolean>(false);
+    const chatRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -31,6 +34,10 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
             }
         };
 
+        fetchMessages();
+    }, [user, recipient]);
+
+    useEffect(() => {
         const uniqueDates = [... new Set(
             messages
                 .map(msg => msg.date ? new Date(msg.date).toLocaleDateString("en-GB", {
@@ -41,11 +48,20 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                 .filter(d => d !== undefined)
         )];
 
-        fetchMessages();
         setDates(uniqueDates);
-    }, [messages, user, recipient]);
+        checkLocked();
+    }, [messages]);
 
-    const addMessage = (event: React.SyntheticEvent) => { 
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTo({
+                top: chatRef.current.scrollHeight,
+                behavior: "smooth"
+            });
+        }
+    }, [messages]);
+
+    const addMessage = async (event: React.SyntheticEvent) => { 
         event.preventDefault();
 
         if (user && recipient) {
@@ -54,27 +70,40 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                 to: recipient.username, 
                 message: newMessage 
             };
-            setNewMessage("");
-            createMessage(msgToAdd);
-            updateUser(user.id, {
+
+            //send to backend
+            await createMessage(msgToAdd);
+            // update user in backend
+            const updated = await updateUser(user.id, {
                 ...user,
                 friends: user.friends?.map(f => f.id),
                 requests: user.requests?.map(r => r.id),
                 lastSentAt: new Date()
             });
+            setUser(updated);
+            setNewMessage("");
+            checkLocked();
         }
         else {
             console.error("No user or recipient.");
         }
     };
 
-    const sameDay = (d1: Date, d2: Date) => {
-        if (!d1) return false
-        return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
-    }
+    const sameDay = (a: Date, b: Date): boolean => {
+        if (!a) return false
+        return a.getFullYear() === b.getFullYear() && 
+            a.getMonth() === b.getMonth() && 
+            a.getDate() === b.getDate();
+    };
 
-    const isLocked = () => {
-        return sameDay(user.lastSentAt as Date, new Date());
+    const checkLocked = () => {
+        if (!user?.lastSentAt) {
+            setLocked(false);
+            return;
+        }
+
+        const last = new Date(user.lastSentAt);
+        setLocked(sameDay(last, new Date()));
     };
 
     return (
@@ -82,7 +111,7 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
             <div className="box">
                 <SideMenu setUser={setUser} />
                 <div className="chat-container">
-                    <div className="chat">
+                    <div className="chat" ref={chatRef}>
                         {dates?.map(d =>
                             <div key={d} className="msg-day">
                                 <div className="date-line">
@@ -143,9 +172,9 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                             </div>
                         )}
                     </div>
-                    {isLocked() ?
+                    {locked ?
                         <div className="locked-chatbox">
-                            am loked
+                            <img src={lockIcon} draggable={false} />
                         </div>
                         :
                         <div className="chatbox">

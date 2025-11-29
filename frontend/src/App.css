@@ -201,6 +201,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .msg-day {
@@ -285,6 +286,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.locked-chatbox {
+    width: 50%;
+    height: 9%;
+    border: 2px solid #5E483C;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chatbox-text {
