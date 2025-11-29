@@ -3,8 +3,9 @@ import lockIcon from "../assets/lock.png";
 import type { MessageEntry, NewMessageEntry, User } from "../types";
 import { useEffect, useState, useRef } from "react";
 import { createMessage, getAllMessages } from "../services/messageService";
-import SideMenu from "./SideMenu";
 import { updateUser } from "../services/userService";
+import SideMenu from "./SideMenu";
+import Message from "./Message";
 
 interface ChatProps {
     user: User; 
@@ -126,56 +127,15 @@ const Chat = ({ user, recipient, setUser }: ChatProps) => {
                                         month: "2-digit",
                                         year: "numeric"
                                     }) === d)
-                                    .map(m => {
-                                        if (m.from === user.username) {
-                                            return (
-                                                <div className="msg msg-mine" key={m.id}>
-                                                    <span className="msg-time">
-                                                        {m.date?.toLocaleTimeString([], {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                            hour12: false
-                                                        })}
-                                                    </span>
-                                                    <span className="msg-message msg-message-mine">
-                                                        {m.message}
-                                                    </span>
-                                                    <div 
-                                                        className="msg-pic-container"
-                                                        style={{ backgroundColor: user.bgColor }}
-                                                    >
-                                                        {user.iconUrl &&
-                                                            <img src={user.iconUrl} />
-                                                        }
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                        else if (m.from === recipient.username) {
-                                            return (
-                                                <div className="msg msg-other" key={m.id}>
-                                                    <div 
-                                                        className="msg-pic-container"
-                                                        style={{ backgroundColor: recipient.bgColor }}
-                                                    >
-                                                        {recipient.iconUrl &&
-                                                            <img src={recipient.iconUrl} />
-                                                        }
-                                                    </div>
-                                                    <span className="msg-message msg-message-other">
-                                                        {m.message}
-                                                    </span>
-                                                    <span className="msg-time">
-                                                        {m.date?.toLocaleTimeString([], {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                            hour12: false
-                                                        })}
-                                                    </span>
-                                                </div>
-                                            )
-                                        }
-                                    })}
+                                    .map(m =>
+                                        <Message
+                                            key={m.id}
+                                            message={m}
+                                            user={user}
+                                            recipient={recipient}
+                                            setUser={setUser}
+                                        />
+                                    )}
                             </div>
                         )}
                     </div>

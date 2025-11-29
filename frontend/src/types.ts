@@ -4,7 +4,6 @@ export interface MessageEntry {
     to: string;
     message: string;
     date?: Date;
-    saved?: boolean;
 }
 
 export type NewMessageEntry = Omit<MessageEntry, "id">;
@@ -18,6 +17,7 @@ export interface User {
     friends?: User[];
     requests?: User[];
     lastSentAt?: string | Date;
+    saved?: (MessageEntry | string)[];
 }
 
 export interface NewUser {
@@ -36,4 +36,5 @@ export interface UpdateUser {
     friends?: string[];
     requests?: string[];
     lastSentAt?: string | Date;
+    saved?: (MessageEntry | string)[];
 }

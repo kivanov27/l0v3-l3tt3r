@@ -244,6 +244,25 @@
     align-self: center;
 }
 
+.msg-save-button {
+    align-self: center;
+    border: 1px solid #5E483C;
+    border-radius: 50%;
+    padding: 1px 8px;
+    cursor: pointer;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
+}
+.msg-save-button::before {
+    font-style: bold;
+    content: '♡';
+    color: #5E483C;
+    transition: transform 0.18s cubic-bezier(.15, .85, .3, 1.2);
+}
+.msg-save-button.filled::before {
+    content: '♥';
+    transform: scale(1.1);
+}
+
 .chatbox {
     width: 50%;
     height: 9%;
