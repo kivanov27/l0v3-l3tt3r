@@ -9,6 +9,7 @@ import Settings from './components/Settings';
 import type { User } from './types';
 import { setToken } from './services/messageService';
 import { getUser } from './services/userService';
+import SavedMessages from './components/SavedMessages';
 
 const App = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -48,6 +49,14 @@ const App = () => {
                     <LoginPage setUser={setUser} />
                 } />
                 <Route path="/register" element={<RegistrationPage />} />
+                {user &&
+                    <Route path='/settings' element={
+                        <Settings
+                            user={user}
+                            setUser={setUser}
+                        />
+                    } />
+                }
                 {user && recipient &&
                     <Route path="/chat" element={
                         <Chat 
@@ -57,10 +66,11 @@ const App = () => {
                         /> 
                     } />
                 }
-                {user &&
-                    <Route path='/settings' element={
-                        <Settings
+                {user && recipient &&
+                    <Route path='/saved' element={
+                        <SavedMessages
                             user={user}
+                            recipient={recipient}
                             setUser={setUser}
                         />
                     } />

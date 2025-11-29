@@ -6,7 +6,12 @@ const baseUrl = "http://localhost:3000/api/users";
 export const getUser = async (id: string) => {
     const response = await axios.get<User>(`${baseUrl}/${id}`);
     return response.data;
-}
+};
+
+export const getUserSavedMessages = async (id: string) => {
+    const response = await axios.get(`${baseUrl}/${id}/saved`);
+    return response.data;
+};
 
 export const createUser = async (object: NewUser) => {
     const response = await axios.post<User>(baseUrl, object);
