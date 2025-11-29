@@ -16,7 +16,6 @@ const addMessage = async (entry: NewMessageEntry): Promise<MessageEntry> => {
         to: entry.to,
         message: entry.message,
         date: entry.date,
-        saved: entry.saved,
         user: entry.user
     });
     const savedMessage = await newMessage.save();

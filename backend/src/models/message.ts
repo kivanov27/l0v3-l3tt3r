@@ -5,7 +5,6 @@ export interface IMessage extends mongoose.Document {
     from: string;
     to: string;
     date: Date;
-    saved: boolean;
     user: mongoose.Types.ObjectId;
 }
 
@@ -14,7 +13,6 @@ const messageSchema = new mongoose.Schema<IMessage>({
     from: { type: String, required: true },
     to: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    saved: { type: Boolean, default: false },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

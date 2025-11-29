@@ -16,7 +16,6 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
                 message: parseMessage(object.message),
                 date: new Date(),
                 user: object.user as mongoose.Types.ObjectId,
-                saved: parseSaved(object.saved),
             };
             return newMessage;
         }
@@ -27,7 +26,6 @@ export const toNewMessage = (object: unknown): NewMessageEntry => {
                 message: parseMessage(object.message),
                 date: new Date(),
                 user: object.user as mongoose.Types.ObjectId,
-                saved: false
             };
             return newMessage;
         }
@@ -60,9 +58,9 @@ const isString = (text: unknown): text is string => {
     return typeof text === 'string' || text instanceof String;
 };
 
-const isBoolean = (variable: unknown): variable is boolean => {
-    return typeof variable === 'boolean' || variable instanceof Boolean;
-};
+// const isBoolean = (variable: unknown): variable is boolean => {
+//     return typeof variable === 'boolean' || variable instanceof Boolean;
+// };
 
 const parseFrom = (from: unknown): string => {
     if (!isString(from)) {
@@ -85,12 +83,12 @@ const parseMessage = (message: unknown): string => {
     return message;
 };
 
-const parseSaved = (saved: unknown): boolean => {
-    if (!isBoolean(saved)) {
-        throw new Error("Incorrect or missing 'saved' field");
-    }
-    return saved;
-};
+// const parseSaved = (saved: unknown): boolean => {
+//     if (!isBoolean(saved)) {
+//         throw new Error("Incorrect or missing 'saved' field");
+//     }
+//     return saved;
+// };
 
 const parseUsername = (username: unknown): string => {
     if (!isString(username)) {

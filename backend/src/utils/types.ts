@@ -6,7 +6,6 @@ export interface MessageEntry {
     to: string;
     message: string;
     date: Date;
-    saved: Boolean;
     user: Types.ObjectId;
 }
 export type NewMessageEntry = Omit<MessageEntry, 'id'>;
@@ -20,6 +19,7 @@ export interface User {
     friends?: Types.ObjectId[];
     requests?: Types.ObjectId[];
     lastSentAt?: Date;
+    saved?: Types.ObjectId[];
 }
 export interface NewUser {
     username: string;
