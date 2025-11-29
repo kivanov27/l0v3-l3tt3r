@@ -16,6 +16,12 @@ router.get('/:id', asyncHandler(async (req, res) => {
     res.json(user);
 }));
 
+router.get('/:id/saved', asyncHandler(async (req, res) => {
+    const user = await userService.getUserSavedMessages(req.params.id as string);
+    if (!user) res.status(404).json({ error: "User not found" });
+    res.json(user);
+}));
+
 router.post('/', asyncHandler(async (req, res) => {
     const newUser = toNewUser(req.body);
     const addedUser = await userService.createUser(newUser);

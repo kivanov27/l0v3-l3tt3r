@@ -9,6 +9,10 @@ const getUser = async (id: string) => {
     return await UserModel.findById(id).populate('friends').populate('requests');
 };
 
+const getUserSavedMessages = async (id: string) => {
+    return await UserModel.findById(id).populate('saved');
+};
+
 const createUser = async (entry: any) => {
     const newUser = new UserModel({
         username: entry.username,
@@ -39,6 +43,7 @@ const deleteUser = async (id: string) => {
 export default {
     getUsers,
     getUser,
+    getUserSavedMessages,
     createUser,
     updateUser,
     deleteUser
