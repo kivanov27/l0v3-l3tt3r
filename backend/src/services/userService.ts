@@ -25,7 +25,10 @@ const createUser = async (entry: any) => {
 };
 
 const updateUser = async (id: string, entry: any) => {
-    const updatedUser = await UserModel.findByIdAndUpdate(id, entry, { new: true });
+    const updatedUser = await UserModel
+        .findByIdAndUpdate(id, entry, { new: true })
+        .populate('friends')
+        .populate('requests');
     return updatedUser;
 };
 
