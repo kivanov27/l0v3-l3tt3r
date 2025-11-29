@@ -25,7 +25,7 @@ const createUser = async (entry: any) => {
 };
 
 const updateUser = async (id: string, entry: any) => {
-    const updatedUser = await UserModel.findByIdAndUpdate(id, entry);
+    const updatedUser = await UserModel.findByIdAndUpdate(id, entry, { new: true });
     return updatedUser;
 };
 
