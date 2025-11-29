@@ -27,10 +27,3 @@ export interface NewUser {
     iconUrl?: string;
     bgColor?: string;
 }
-
-export interface FriendRequest {
-    id: string;
-    from: Types.ObjectId;
-    to: Types.ObjectId;
-}
-export type NewFriendRequest = Omit<FriendRequest, 'id'>;
