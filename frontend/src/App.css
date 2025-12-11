@@ -177,6 +177,9 @@
     row-gap: 1rem;
     margin-bottom: 1rem;
 }
+.chat::-webkit-scrollbar {
+    display: none;
+}
 
 .msg-day {
     display: block;
@@ -299,6 +302,9 @@
 }
 .chatbox-text:focus {
     outline: none;
+}
+.chatbox-text::-webkit-scrollbar {
+    display: none;
 }
 
 .chatbox-btn {

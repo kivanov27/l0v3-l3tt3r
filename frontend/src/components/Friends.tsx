@@ -54,7 +54,7 @@ const Friends = ({ user, setUser, setRecipient }: FriendsProps) => {
             <div className="box">
                 <SideMenu setUser={setUser} />
                 <div className="friends-container">
-                    <h1>chat rooms</h1>
+                    <h2>chat rooms</h2>
                     <div className="friends">
                         {user.friends && user.friends.map(friend =>
                             <div key={friend.username} className="friend">
