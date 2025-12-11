@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { MessageEntry, NewMessageEntry } from "../types";
 
-const baseUrl = "http://localhost:3000/api/messages";
+const baseUrl = "https://l0v3-l3tt3r-backend.onrender.com/api/messages";
 let token: string = '';
 
 export const setToken = (newToken: string) => {

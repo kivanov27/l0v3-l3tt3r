@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { User, NewUser, UpdateUser } from "../types";
 
-const baseUrl = "http://localhost:3000/api/users";
+const baseUrl = "https://l0v3-l3tt3r-backend.onrender.com/api/users";
 
 export const getUser = async (id: string) => {
     const response = await axios.get<User>(`${baseUrl}/${id}`);

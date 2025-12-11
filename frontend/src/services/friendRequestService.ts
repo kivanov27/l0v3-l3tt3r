@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3000/api/friend-request";
+const baseUrl = "https://l0v3-l3tt3r-backend.onrender.com/api/friend-request";
 
 export const getFriendRequests = async () => {
     const response = await axios.get(`${baseUrl}`);
