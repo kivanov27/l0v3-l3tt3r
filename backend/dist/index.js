@@ -3,15 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-const PORT = 3000;
-app.get("/ping", (_req, res) => {
-    console.log("someone pinged here");
-    res.send("pong");
-});
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+const app_1 = __importDefault(require("./app"));
+const config_1 = require("./utils/config");
+const logger_1 = __importDefault(require("./utils/logger"));
+app_1.default.listen(config_1.PORT, () => {
+    logger_1.default.info(`Server is running on port ${config_1.PORT}`);
 });
 //# sourceMappingURL=index.js.map
