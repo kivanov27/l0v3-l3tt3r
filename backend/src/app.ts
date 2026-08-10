@@ -7,6 +7,7 @@ import messageRouter from "./routes/messages";
 import userRouter from "./routes/users";
 import loginRouter from "./routes/login";
 import friendRequestRouter from "./routes/friend-request";
+import healthRouter from "./routes/health";
 import { errorHandler } from "./utils/middleware";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api/messages", messageRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/friend-request", friendRequestRouter);
+app.use("/api/health", healthRouter);
 
 app.use(errorHandler);
 
